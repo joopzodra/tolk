@@ -1,0 +1,4 @@
+<div>
+  <button id="authorize-button" (click)="handleAuthClick()" *ngIf="!isSignedIn">Authorize</button>
+  <button id="signout-button" (click)="handleSignoutClick()" *ngIf="isSignedIn">Sign Out</button>
+</div>
