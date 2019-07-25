@@ -33,12 +33,12 @@ export class SheetComponent implements OnInit {
   }
 
   loadSheet() {
-    this.sheetService.makeApiCall('14_wotj6Bfckgf4uqWm1jUh9ru-7wEGYL-HeLM06kexI');
+    this.sheetService.getSheetValues('14_wotj6Bfckgf4uqWm1jUh9ru-7wEGYL-HeLM06kexI');
   }
 
    loadPublicSheet() {
     // https://docs.google.com/spreadsheets/d/e/2PACX-1vQW715j0SQX7GwnZmoetwH4DhntJh81sQZS7IJQwHVzQ1TsQq3V0oH8AQsubHP9XogAHL2l_3MwQ8My/pubhtml
-    this.sheetService.makeApiCall('12n9gbtJl-Sg1g5SdtLE2OTvvJOcnVZWDdPRXmJq_C4o');
+    this.sheetService.getSheetValues('12n9gbtJl-Sg1g5SdtLE2OTvvJOcnVZWDdPRXmJq_C4o');
   }
 
 }

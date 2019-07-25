@@ -2,15 +2,5 @@
 
 declare namespace gapi.client {
 
-  const sheets: Sheets
-
-  interface Sheets {
-    spreadsheets: Spreadsheets
-  }
-
-  interface Spreadsheets {
-    values: {
-      get(options: {}): any
-    }
-  } 
+  const sheets: any
 }

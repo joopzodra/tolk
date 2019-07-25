@@ -25,9 +25,17 @@ export class DatabaseService {
     });
     console.log(db)
    }
+
+  loadDatabase(customizedValueRanges: CustomizedValueRange[], columnNames: string[]) {
+    console.log(customizedValueRanges, columnNames)
+  } 
 }
 
 interface SheetRow {
     id?: number,
     sheetRow: string[]
+}
+interface CustomizedValueRange {
+  sheetName: string,
+  values: string[][]
 }
