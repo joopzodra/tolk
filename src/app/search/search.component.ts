@@ -24,7 +24,10 @@ export class SearchComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.columnNames = JSON.parse(localStorage.getItem('columnNames'));
+    const columnNames = JSON.parse(localStorage.getItem('columnNames'));
+    if (columnNames) {
+      this.columnNames = columnNames;
+    } 
 
     this.databaseService.sheetMetaStream.subscribe(sheetMeta => {
       this.columnNames = sheetMeta.columnNames;
