@@ -7,6 +7,9 @@ import { SearchComponent } from './search/search.component';
 import { DisplayComponent } from './display/display.component';
 import { AuthComponent } from './auth/auth.component';
 import { SheetComponent } from './sheet/sheet.component';
+import { ErrorComponent } from './error/error.component';
+import { GapiComponent } from './gapi/gapi.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +17,10 @@ import { SheetComponent } from './sheet/sheet.component';
     SearchComponent,
     DisplayComponent,
     AuthComponent,
-    SheetComponent
+    SheetComponent,
+    ErrorComponent,
+    GapiComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

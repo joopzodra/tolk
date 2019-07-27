@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 
+import {GapiService} from '../services/gapi.service';
 import {AuthService} from '../services/auth.service';
 
 /* 
@@ -15,23 +16,39 @@ import {AuthService} from '../services/auth.service';
 })
 export class AuthComponent implements OnInit {
 
-  isSignedIn: boolean;
+  gapiLoaded = false;
+  isSignedIn = false;
+  userName = '';
 
-  constructor(private authService: AuthService, private changeDetector: ChangeDetectorRef) { }
+  constructor(
+    private gapiService: GapiService,
+    private authService: AuthService,
+    private changeDetector: ChangeDetectorRef,
+    ) { }
 
   ngOnInit() {
-    this.authService.isSignedIn.subscribe(isSignedIn => {
+    this.gapiService.gapiLoadedStream.subscribe(gapiLoaded => {
+      this.gapiLoaded = gapiLoaded;
+      this.changeDetector.detectChanges();
+    });
+
+    this.authService.isSignedInStream.subscribe(isSignedIn => {
       this.isSignedIn = isSignedIn;
-      this.changeDetector.detectChanges()
+      this.userName = this.authService.userName;
+      this.changeDetector.detectChanges();
     });
   }
 
-  handleAuthClick() {
-    this.authService.handleAuthClick();
+  onSignIn() {
+    this.authService.signIn();
   }
 
-  handleSignoutClick() {
-    this.authService.handleSignoutClick();
+  onSignOut() {
+    this.authService.signOut();
+  }
+
+  showUserData(basicProfile) {
+    console.log('Hi', basicProfile.getGivenName(), basicProfile.getFamilyName())
   }
 
 }

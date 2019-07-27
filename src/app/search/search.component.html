@@ -1,4 +1,19 @@
 <div>
+  <label>{{constants.SELECT_SEARCH_LANGUAGE}}</label>
+  <div class="form-group">
+      <div class="radio">
+          <label>
+              <input type="radio" name="searchLanguage" value="lang1" [formControl]="lang" ng-model="formData.chickenEgg">
+              {{columnNames[0]}}
+          </label>
+      </div>
+      <div class="radio">
+          <label>
+              <input type="radio" name="searchLanguage" value="lang2" [formControl]="lang" ng-model="formData.chickenEgg">
+              {{columnNames[1]}}
+          </label>
+      </div>
+  </div>
   <label>
     Zoek:
     <input type="text" [formControl]="search">

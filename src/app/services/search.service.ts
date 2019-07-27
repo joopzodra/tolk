@@ -9,7 +9,7 @@ export class SearchService {
   constructor() { }
 
   getValues(value): Observable<string> {
-    return of('result ' + value)
+    return of(value)
   }
 
 }

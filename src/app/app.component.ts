@@ -1,15 +1,14 @@
 import { Component } from '@angular/core';
 
+import {GapiService} from './services/gapi.service';
+
 @Component({
   selector: 'trapp-root',
   templateUrl: './app.html',
   styles: []
 })
 export class AppComponent {
-
-  result: string
-  
-  onResult(result) {
-    this.result = result
+  constructor(private gapiService: GapiService) {
+    gapiService.loadGapi();
   }
 }

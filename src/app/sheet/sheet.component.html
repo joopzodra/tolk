@@ -1,4 +1,7 @@
 <div>
-  <button *ngIf="isSignedIn" (click)="loadSheet()">Laad sheet</button>
-  <button (click)="loadPublicSheet()">Laad gepubliceerde sheet</button>
-</div>  
+  <label>
+    Google Sheets spreadsheet id of url:
+    <input type="text" [formControl]="idOrUrl">
+  </label>
+  <button (click)="loadSheet()">Laad sheet</button>
+</div>

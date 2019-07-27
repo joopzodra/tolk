@@ -1,4 +1,8 @@
 <div>
-  <button id="authorize-button" (click)="handleAuthClick()" *ngIf="!isSignedIn">Authorize</button>
-  <button id="signout-button" (click)="handleSignoutClick()" *ngIf="isSignedIn">Sign Out</button>
+  <button id="authorize-button" (click)="onSignIn()" *ngIf="!isSignedIn" [disabled]="!gapiLoaded">Authorize</button>
+  <button id="signout-button" (click)="onSignOut()" *ngIf="isSignedIn" [disabled]="!gapiLoaded">Sign Out</button>
+</div>
+<div *ngIf="gapiLoaded">
+  <div *ngIf="userName">Bij Google ingelogd als: {{userName}}</div>
+  <div *ngIf="!userName">Niet bij ingelogd.</div>
 </div>

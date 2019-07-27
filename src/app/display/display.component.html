@@ -1,3 +1,15 @@
-<p>
-  {{result}}
-</p>
+<div>
+  <table>
+    <tr>
+      <th>{{columnNames[0]}}</th>
+      <th>{{columnNames[1]}}</th>
+    </tr>
+    <tr *ngFor="let row of selection">
+      <td>{{row.lang1}}</td>
+      <td>{{row.lang2}}</td>
+    </tr>
+  </table>
+
+
+</div>
+

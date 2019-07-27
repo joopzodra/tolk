@@ -1,32 +1,44 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { debounceTime, switchMap } from 'rxjs/operators';
+import { debounceTime } from 'rxjs/operators';
 
-import {SearchService} from '../services/search.service';
-import {SheetService} from '../services/sheet.service';
+import {DatabaseService} from '../services/database.service';
+import {constants} from '../helpers/constants';
 
 @Component({
   selector: 'trapp-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css']
+  styleUrls: ['./search.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchComponent implements OnInit {
-
   search = new FormControl('');
-  @Output() searchResult = new EventEmitter<string>();
+  lang = new FormControl('lang1')
+  searchLanguage = 'lang1'
+  columnNames = ['',''];
+  constants = constants;
 
   constructor(
-    private searchService: SearchService,
-    private sheetService: SheetService
+    private changeDetector: ChangeDetectorRef,
+    private databaseService: DatabaseService,
   ) { }
 
   ngOnInit() {
+    this.columnNames = JSON.parse(localStorage.getItem('columnNames'));
+
+    this.databaseService.sheetMetaStream.subscribe(sheetMeta => {
+      this.columnNames = sheetMeta.columnNames;
+      this.changeDetector.detectChanges();
+    });
+
     this.search.valueChanges
     .pipe(
-      debounceTime(300),
-      switchMap(search => this.searchService.getValues(search)),
-      )
-    .subscribe(result => this.searchResult.emit(result))
-  }
+      debounceTime(250),      
+    )
+    .subscribe(searchTerm => {
+      this.databaseService.select(searchTerm, this.searchLanguage);
+    });
 
+    this.lang.valueChanges.subscribe(lang => this.searchLanguage = lang);
+  }
 }
