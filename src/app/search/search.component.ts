@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 
@@ -14,7 +14,8 @@ import {constants} from '../helpers/constants';
 export class SearchComponent implements OnInit {
   search = new FormControl('');
   lang = new FormControl('lang1')
-  searchLanguage = 'lang1'
+  searchLanguage = 'lang1';
+  @Output() searchLanguageEvent = new EventEmitter<string>()
   columnNames = ['',''];
   constants = constants;
 
@@ -25,6 +26,7 @@ export class SearchComponent implements OnInit {
 
   ngOnInit() {
     const columnNames = JSON.parse(localStorage.getItem('columnNames'));
+    this.searchLanguageEvent.emit(this.searchLanguage);
     if (columnNames) {
       this.columnNames = columnNames;
     } 
@@ -42,6 +44,9 @@ export class SearchComponent implements OnInit {
       this.databaseService.select(searchTerm, this.searchLanguage);
     });
 
-    this.lang.valueChanges.subscribe(lang => this.searchLanguage = lang);
+    this.lang.valueChanges.subscribe(lang => {
+      this.searchLanguage = lang;
+      this.searchLanguageEvent.emit(lang);
+    });
   }
 }

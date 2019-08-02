@@ -1,15 +1,14 @@
-<div>
-  <table>
-    <tr>
-      <th>{{columnNames[0]}}</th>
+<div class="container">
+  <table class="table table-borderless table-sm">
+    <tr *ngIf="selection.length">
+      <th *ngIf="searchLanguage==='lang1'">{{columnNames[0]}}</th>
       <th>{{columnNames[1]}}</th>
+      <th *ngIf="searchLanguage==='lang2'">{{columnNames[0]}}</th>
     </tr>
     <tr *ngFor="let row of selection">
-      <td>{{row.lang1}}</td>
+      <td *ngIf="searchLanguage==='lang1'">{{row.lang1}}</td>
       <td>{{row.lang2}}</td>
+      <td *ngIf="searchLanguage==='lang2'">{{row.lang1}}</td>
     </tr>
   </table>
-
-
 </div>
-

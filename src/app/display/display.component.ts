@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 
 import {DatabaseService} from '../services/database.service';
 import {constants} from '../helpers/constants';
@@ -13,6 +13,7 @@ export class DisplayComponent implements OnInit {
   columnNames = ['',''];
   constants = constants;
   selection = [];
+  @Input() searchLanguage: string;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -36,4 +37,7 @@ export class DisplayComponent implements OnInit {
     });
   }
 
+  ngOnChanges() {
+    
+  }
 }

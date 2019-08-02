@@ -1,21 +1,19 @@
-<div>
+<div class="container">
   <label>{{constants.SELECT_SEARCH_LANGUAGE}}</label>
-  <div class="form-group">
-      <div class="radio">
-          <label>
-              <input type="radio" name="searchLanguage" value="lang1" [formControl]="lang">
-              {{columnNames[0]}}
-          </label>
-      </div>
-      <div class="radio">
-          <label>
-              <input type="radio" name="searchLanguage" value="lang2" [formControl]="lang">
-              {{columnNames[1]}}
-          </label>
-      </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="searchLanguage" id="radio-button-lang1" value="lang1" [formControl]="lang">
+    <label class="form-check-label" for="radio-button-lang1">
+      {{columnNames[0]}}
+    </label>
   </div>
+  <div class="form-check">
+    <input class="form-check-input" type="radio" name="searchLanguage" id="radio-button-lang2" value="lang2" [formControl]="lang">
+    <label class="form-check-label" for="radio-button-lang2">
+      {{columnNames[1]}}
+    </label>
+  </div>  
   <label>
     Zoek:
-    <input type="text" [formControl]="search">
+    <input type="text" [formControl]="search" onClick="this.select()">
   </label>
 </div>
