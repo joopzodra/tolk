@@ -1,6 +1,6 @@
 export const nl = {
   NO_GAPI_LOADED: 'Het lukt niet om verbinding te maken met Google.',
-  LOAD_SHEET: 'Laad sheet',
+  LOAD_SHEET: 'Laden',
   INCORRECT_SPREADSHEET_URL: 'Geen spreadsheet gevonden bij deze url.',
   SPREADSHEET_REQUIRES_AUTORIZATION: 'Deze spreadsheet is niet publiek. Je moet inloggen bij Google met het account voor deze sheet.',
   SHEETS_LOADING_ERROR: 'Het lukt niet om Google Sheets binnen te halen.',
