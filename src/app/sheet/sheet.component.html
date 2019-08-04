@@ -1,7 +1,10 @@
-<div>
-  <label>
-    Google Sheets spreadsheet id of url:
-    <input type="text" [formControl]="idOrUrl">
-  </label>
-  <button (click)="loadSheet()">Laad sheet</button>
+<div *ngIf="gapiLoadStatus==='loaded'">
+  <div *ngIf="!sheetLoading">
+    <label>
+      Google Sheets spreadsheet url:
+      <input type="text" [formControl]="urlInput">
+    </label>
+    <button (click)="loadSheet()">{{nl.LOAD_SHEET}}</button>
+  </div>
+  <div *ngIf="sheetLoading" class="spinner"></div>
 </div>

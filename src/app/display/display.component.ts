@@ -1,17 +1,16 @@
-import { Component, OnInit, Input, OnChanges, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 
 import {DatabaseService} from '../services/database.service';
-import {constants} from '../helpers/constants';
+import {nl} from '../helpers/nl';
 
 @Component({
   selector: 'trapp-display',
   templateUrl: './display.component.html',
-  styleUrls: ['./display.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,  
 })
 export class DisplayComponent implements OnInit {
   columnNames = ['',''];
-  constants = constants;
+  nl = nl;
   selection = [];
   @Input() searchLanguage: string;
 
@@ -35,9 +34,5 @@ export class DisplayComponent implements OnInit {
       this.selection = selection;
       this.changeDetector.detectChanges();
     });
-  }
-
-  ngOnChanges() {
-    
   }
 }

@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { distinctUntilKeyChanged, map } from 'rxjs/operators';
 
 import {GapiService} from '../services/gapi.service';
 import {AuthService} from '../services/auth.service';
@@ -11,14 +12,12 @@ import {AuthService} from '../services/auth.service';
 @Component({
   selector: 'trapp-auth',
   templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AuthComponent implements OnInit {
 
-  gapiLoaded = false;
-  isSignedIn = false;
-  userName = '';
+  gapiLoadStatus = '';
+  username: string;
 
   constructor(
     private gapiService: GapiService,
@@ -27,14 +26,13 @@ export class AuthComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.gapiService.gapiLoadedStream.subscribe(gapiLoaded => {
-      this.gapiLoaded = gapiLoaded;
+    this.gapiService.gapiLoadStatusStream.subscribe(status => {
+      this.gapiLoadStatus = status;
       this.changeDetector.detectChanges();
     });
 
-    this.authService.isSignedInStream.subscribe(isSignedIn => {
-      this.isSignedIn = isSignedIn;
-      this.userName = this.authService.userName;
+    this.authService.usernameStream.subscribe(username => {
+      this.username = username;
       this.changeDetector.detectChanges();
     });
   }
@@ -45,10 +43,6 @@ export class AuthComponent implements OnInit {
 
   onSignOut() {
     this.authService.signOut();
-  }
-
-  showUserData(basicProfile) {
-    console.log('Hi', basicProfile.getGivenName(), basicProfile.getFamilyName())
   }
 
 }

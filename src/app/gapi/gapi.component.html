@@ -1,4 +1,9 @@
-<p *ngIf="gapiLoaded">
-  gapi works!
-</p>
-<button *ngIf="!gapiLoaded" (click)="loadGapi()">load google api</button>
+<div id="gapi-container">
+  <div *ngIf="gapiLoadStatus">
+    <div *ngIf="gapiLoadStatus === 'error'">
+      <button  (click)="loadGapi()">load google api</button>
+    </div>
+  </div>
+  <div *ngIf="gapiLoadStatus === 'loading'" class="spinner">
+  </div>
+</div>

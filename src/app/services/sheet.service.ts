@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 
 import {DatabaseService } from './database.service';
-import {ErrorService} from './error.service';
-import {constants} from '../helpers/constants'
+import {DialogService} from './dialog.service';
+import {nl} from '../helpers/nl'
 
 @Injectable({
   providedIn: 'root'
@@ -11,17 +11,14 @@ export class SheetService {
 
   spreadsheetTitle = '';
   columnNames = ['', ''];
+  sheetNames = [];
 
-  constructor(private databaseService: DatabaseService, private errorService: ErrorService) { }
+  constructor(private databaseService: DatabaseService, private dialogService: DialogService) { }
 
   loadSheet(spreadsheetIdOrUrl): Promise<any> {
-    if(!this.gapiExists()) {
-      return Promise.reject();
-    }
-
     const spreadsheetId = this.extractId(spreadsheetIdOrUrl);
     if (!spreadsheetId) {
-      return;
+      return Promise.reject('noId');
     }
 
     return gapi.client.sheets.spreadsheets.get({
@@ -31,7 +28,10 @@ export class SheetService {
       this.spreadsheetTitle = response.result.properties.title;
       return response.result.sheets.map(sheet => sheet.properties.title)
     })
-    .then(sheetNames => sheetNames.map(sheetName => sheetName + '!A1:B'))
+    .then(sheetNames => {
+      this.sheetNames = sheetNames;
+      return sheetNames.map(sheetName => sheetName + '!A1:B');
+    })
     .then(ranges => gapi.client.sheets.spreadsheets.values.batchGet({
       spreadsheetId: spreadsheetId,
       ranges: ranges
@@ -41,9 +41,10 @@ export class SheetService {
       if (valueRanges.length) {
         this.columnNames = valueRanges[0].values.slice(0,1)[0];
       }
+      this.columnNames = this.setColumnNames(this.columnNames);
       valueRanges.forEach(valueRange => valueRange.values.shift());
       const customizedValueRanges = valueRanges.map(valueRange => ({sheetName: valueRange.range.split('!')[0], values: valueRange.values}));
-      return this.databaseService.clearTableAndAddNewSheet(customizedValueRanges, this.spreadsheetTitle, this.columnNames)
+      return this.databaseService.clearTableAndAddNewSheet(customizedValueRanges, this.spreadsheetTitle, this.columnNames, this.sheetNames);
     });
   }
 
@@ -51,18 +52,32 @@ export class SheetService {
     if (gapi && gapi.client && gapi.client.sheets) {
       return true;
     } else {
-      this.errorService.emitError(constants.NO_GAPI_LOADED);
+      this.dialogService.emitMessage('error', nl.NO_GAPI_LOADED, 8000);
       return false;
     }
   }
 
-  extractId(idOrUrl: string) {
-    if (idOrUrl.trim().length === 0) {
+  extractId(url: string) {
+    if (url.trim().length === 0) {
       return undefined;
     }
     const idInUrl = /https:\/\/docs\.google\.com\/spreadsheets\/d\/(.*)\/edit.*/i;
-    const matches = idOrUrl.match(idInUrl);
+    const matches = url.match(idInUrl);
     const idFromUrl = matches && matches[1] ? matches[1] : undefined;
-    return idFromUrl ? idFromUrl : idOrUrl;
+    return idFromUrl ? idFromUrl : url;
+  }
+
+  setColumnNames(columnNames) {
+    if (columnNames.length === 0) {
+      return [nl.COLUMN + ' A', nl.COLUMN + ' B'];
+    }
+    let newColumnNames;
+    if (columnNames.length === 1) {
+      newColumnNames = [columnNames[0].trim(), '']
+    } else {
+      newColumnNames = columnNames.map(name => name.trim());
+    }
+    newColumnNames = newColumnNames.map((name, index) => name ? name : nl.COLUMN + ' ' + ['A', 'B'][index]);
+    return newColumnNames   
   }
 }

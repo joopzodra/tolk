@@ -1,0 +1,5 @@
+<div id="dialog-container" class="mx-3">
+  <ngb-alert *ngFor="let key of keys(messages).reverse()" (close)="clearMessage(key)" type="{{messages[key].type}}">
+    {{messages[key].body}}
+  </ngb-alert>
+</div>

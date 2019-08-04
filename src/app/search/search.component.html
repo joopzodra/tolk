@@ -1,19 +1,33 @@
 <div class="container">
-  <label>{{constants.SELECT_SEARCH_LANGUAGE}}</label>
-  <div class="form-check">
-    <input class="form-check-input" type="radio" name="searchLanguage" id="radio-button-lang1" value="lang1" [formControl]="lang">
-    <label class="form-check-label" for="radio-button-lang1">
-      {{columnNames[0]}}
-    </label>
+
+  <div class="row">
+  <form class="col-8 mb-1 pr-2" [formGroup]="radioGroupForm">
+    <div class="btn-group btn-group-toggle w-100" ngbRadioGroup name="searchLanguage" formControlName="lang">
+      <label ngbButtonLabel class="btn-primary text-truncate">
+        <input ngbButton type="radio" value="lang1">{{columnNames[0]}}
+      </label>
+      <label ngbButtonLabel class="btn-primary text-truncate">
+        <input ngbButton type="radio" value="lang2">{{columnNames[1]}}
+      </label>
+    </div>
+  </form>
+
+  <div class="col-4" *ngIf="sheetNames.length > 1">
+    <div ngbDropdown class="d-inline-block w-100" placement="bottom-right">
+      <button #sheetFilterButton class="btn btn-outline-primary text-truncate w-100" ngbDropdownToggle>{{sheetFilterText || nl.ALL_SHEETS}}</button>
+      <div ngbDropdownMenu class="text-truncate">
+        <button ngbDropdownItem (click)="sheetFilter('')">{{nl.ALL_SHEETS}}</button>
+        <button *ngFor="let sheetName of sheetNames" ngbDropdownItem (click)="sheetFilter(sheetName)">{{sheetName}}</button>
+      </div>
+    </div>
   </div>
-  <div class="form-check">
-    <input class="form-check-input" type="radio" name="searchLanguage" id="radio-button-lang2" value="lang2" [formControl]="lang">
-    <label class="form-check-label" for="radio-button-lang2">
-      {{columnNames[1]}}
-    </label>
-  </div>  
-  <label>
-    Zoek:
-    <input type="text" [formControl]="search" onClick="this.select()">
-  </label>
+</div>
+
+  <div class="input-group my-2">
+    <input type="text" class="form-control" placeholder="{{nl.SEARCH_FOR}}" [formControl]="search">
+    <div class="input-group-append">
+      <span class="input-group-text" (click)="clearInput()">&times;</span>
+    </div>
+  </div>
+
 </div>

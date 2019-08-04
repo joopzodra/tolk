@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import {GapiService} from './services/gapi.service';
 
@@ -6,16 +6,23 @@ import {GapiService} from './services/gapi.service';
   selector: 'trapp-root',
   templateUrl: './app.html',
   styles: [`
-      div {
+      #app-container {
         height: 100vh;
+      }
+      #bottom-container {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
       }
   `]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   searchLanguage: string;
 
-  constructor(private gapiService: GapiService) {
-    gapiService.loadGapi();
+  constructor(private gapiService: GapiService) {}
+
+  ngOnInit() {
+    this.gapiService.loadGapi();
   }
 
   onSearchLanguageEvent(lang) {

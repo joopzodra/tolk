@@ -1,39 +1,49 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 
 import {DatabaseService} from '../services/database.service';
-import {constants} from '../helpers/constants';
+import {nl} from '../helpers/nl';
 
 @Component({
   selector: 'trapp-search',
   templateUrl: './search.component.html',
-  styleUrls: ['./search.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchComponent implements OnInit {
   search = new FormControl('');
-  lang = new FormControl('lang1')
+  radioGroupForm: FormGroup;
   searchLanguage = 'lang1';
   @Output() searchLanguageEvent = new EventEmitter<string>()
   columnNames = ['',''];
-  constants = constants;
+  sheetNames = [];
+  nl = nl;
+  sheetFilterText = '';
 
   constructor(
     private changeDetector: ChangeDetectorRef,
     private databaseService: DatabaseService,
+    private formBuilder: FormBuilder,
   ) { }
 
   ngOnInit() {
-    const columnNames = JSON.parse(localStorage.getItem('columnNames'));
+    this.columnNames = JSON.parse(localStorage.getItem('columnNames')) || this.columnNames;
+    this.sheetNames = JSON.parse(localStorage.getItem('sheetNames')) || this.sheetNames;
     this.searchLanguageEvent.emit(this.searchLanguage);
-    if (columnNames) {
-      this.columnNames = columnNames;
-    } 
 
     this.databaseService.sheetMetaStream.subscribe(sheetMeta => {
       this.columnNames = sheetMeta.columnNames;
+      this.sheetNames = sheetMeta.sheetNames;
       this.changeDetector.detectChanges();
+    });
+
+    this.radioGroupForm = this.formBuilder.group({
+      'lang': 'lang1'
+    });
+
+    this.radioGroupForm.get('lang').valueChanges.subscribe(lang => {
+      this.searchLanguage = lang;
+      this.searchLanguageEvent.emit(lang);
     });
 
     this.search.valueChanges
@@ -41,12 +51,16 @@ export class SearchComponent implements OnInit {
       debounceTime(250),      
     )
     .subscribe(searchTerm => {
-      this.databaseService.select(searchTerm, this.searchLanguage);
+      this.databaseService.select(searchTerm, this.searchLanguage, this.sheetFilterText);
     });
+  }
 
-    this.lang.valueChanges.subscribe(lang => {
-      this.searchLanguage = lang;
-      this.searchLanguageEvent.emit(lang);
-    });
+  clearInput() {
+    this.search.reset('');
+  }
+
+  sheetFilter(sheetName) {
+    this.sheetFilterText = sheetName;
+    this.databaseService.select(this.search.value, this.searchLanguage, this.sheetFilterText);
   }
 }

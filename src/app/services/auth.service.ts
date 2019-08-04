@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-import {ErrorService} from './error.service';
-import {constants} from '../helpers/constants'
+import {DialogService} from './dialog.service';
+import {nl} from '../helpers/nl';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private isSignedIn = new BehaviorSubject<boolean>(false);
-  public isSignedInStream = this.isSignedIn.asObservable();
-  public userName = '';
+  private username = new BehaviorSubject<string | undefined>(undefined);
+  public usernameStream = this.username.asObservable();
 
-  constructor(private errorService: ErrorService) {}
+  constructor(private dialogService: DialogService) {}
 
   onGapiAuth2Init() {
     // Listen for sign-in state changes.
@@ -24,11 +23,10 @@ export class AuthService {
 
   updateSigninStatus(isSignedIn) {
     if (isSignedIn) {
-      this.userName = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getName();
-      this.isSignedIn.next(true);
+      const username = gapi.auth2.getAuthInstance().currentUser.get().getBasicProfile().getName();
+      this.username.next(username);
     } else {
-      this.userName = '';
-      this.isSignedIn.next(false);
+      this.username.next(undefined);
     }
   }
   
@@ -50,7 +48,7 @@ export class AuthService {
     if (gapi && gapi.auth2) {
       return true;
     } else {
-      this.errorService.emitError(constants.NO_GAPI_LOADED);
+      this.dialogService.emitMessage('error', nl.NO_GAPI_LOADED, 8000);
       return false;
     }
   }
