@@ -12,6 +12,7 @@ import {GapiService} from './services/gapi.service';
       #top-container {
         position: absolute;
         z-index: 1;
+        width: 100%;
       }
       #bottom-container {
         position: absolute;
