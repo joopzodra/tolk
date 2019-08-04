@@ -3,6 +3,7 @@ import { distinctUntilKeyChanged, map } from 'rxjs/operators';
 
 import {GapiService} from '../services/gapi.service';
 import {AuthService} from '../services/auth.service';
+import {nl} from '../helpers/nl';
 
 /* 
  * Using changeDetector.detectChanges() in the subscription because, very oddly, on siging out the default change detection
@@ -18,6 +19,7 @@ export class AuthComponent implements OnInit {
 
   gapiLoadStatus = '';
   username: string;
+  nl = nl;
 
   constructor(
     private gapiService: GapiService,

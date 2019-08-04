@@ -3,10 +3,10 @@
   <div class="row">
   <form class="col-8 mb-1 pr-2" [formGroup]="radioGroupForm">
     <div class="btn-group btn-group-toggle w-100" ngbRadioGroup name="searchLanguage" formControlName="lang">
-      <label ngbButtonLabel class="btn-primary text-truncate">
+      <label ngbButtonLabel class="btn-info text-truncate">
         <input ngbButton type="radio" value="lang1">{{columnNames[0]}}
       </label>
-      <label ngbButtonLabel class="btn-primary text-truncate">
+      <label ngbButtonLabel class="btn-info text-truncate">
         <input ngbButton type="radio" value="lang2">{{columnNames[1]}}
       </label>
     </div>
@@ -14,7 +14,7 @@
 
   <div class="col-4" *ngIf="sheetNames.length > 1">
     <div ngbDropdown class="d-inline-block w-100" placement="bottom-right">
-      <button #sheetFilterButton class="btn btn-outline-primary text-truncate w-100" ngbDropdownToggle>{{sheetFilterText || nl.ALL_SHEETS}}</button>
+      <button #sheetFilterButton class="btn btn-outline-info text-truncate w-100" ngbDropdownToggle>{{sheetFilterText || nl.ALL_SHEETS}}</button>
       <div ngbDropdownMenu class="text-truncate">
         <button ngbDropdownItem (click)="sheetFilter('')">{{nl.ALL_SHEETS}}</button>
         <button *ngFor="let sheetName of sheetNames" ngbDropdownItem (click)="sheetFilter(sheetName)">{{sheetName}}</button>

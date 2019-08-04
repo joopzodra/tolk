@@ -1,7 +1,7 @@
 <div id="gapi-container">
   <div *ngIf="gapiLoadStatus">
-    <div *ngIf="gapiLoadStatus === 'error'">
-      <button  (click)="loadGapi()">load google api</button>
+    <div *ngIf="gapiLoadStatus === 'error'" class="container border-top py-2">
+      <div style="font-size: 14px;">Geen verbinding met Google <button class="btn btn-outline-info btn-sm" (click)="loadGapi()">load google api</button></div>      
     </div>
   </div>
   <div *ngIf="gapiLoadStatus === 'loading'" class="spinner">

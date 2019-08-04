@@ -1,10 +1,8 @@
-<div  *ngIf="gapiLoadStatus === 'loaded'">
-  <div>
-    <div *ngIf="username">Bij Google ingelogd als: {{username}}</div>
-    <div *ngIf="!username">Niet bij Google ingelogd.</div>
-  </div>
-  <div>
-    <button id="authorize-button" (click)="onSignIn()" *ngIf="!username">Authorize</button>
-    <button id="signout-button" (click)="onSignOut()" *ngIf="username">Sign Out</button>
-  </div>
+<div *ngIf="gapiLoadStatus === 'loaded'" class="container border-top py-2">
+    <div class="d-flex justify-content-between align-items-center text-info" *ngIf="username" style="font-size: 14px;">Bij Google ingelogd als: {{username}}
+      <button id="signout-button" class="btn btn-outline-info btn-sm" (click)="onSignOut()">{{nl.SIGN_OUT}}</button>
+    </div>
+    <div class="d-flex justify-content-between align-items-center text-info" *ngIf="!username" style="font-size: 14px;">Niet bij Google ingelogd.
+      <button id="authorize-button" class="btn btn-outline-info btn-sm" (click)="onSignIn()">{{nl.SIGN_IN}}</button>
+    </div>
 <div>

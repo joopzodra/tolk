@@ -11,5 +11,8 @@ export const nl = {
   SEARCH_LANGUAGE: 'Zoek in',
   SHEETS: 'Sheets',
   ALL_SHEETS: 'Alle sheets',
-  NO_SEARCHRESULTS: 'Geen resultaat gevonden bij je zoekterm.'
+  NO_SEARCHRESULTS: 'Geen resultaat gevonden bij je zoekterm.',
+  SIGN_IN: 'Inloggen',
+  SIGN_OUT: 'Uitloggen',
+  GOOGLE_SHEETS_URL: 'Spreadsheet url'
 }

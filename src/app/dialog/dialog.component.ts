@@ -32,7 +32,6 @@ export class DialogComponent implements OnInit {
       delete this.messages[counter];
       this.changeDetector.detectChanges();
     });
-    this.messages[1000] = {body: 'testtekst', time: 0, type: 'info'}
   }
 
   clearMessage(key: number) {

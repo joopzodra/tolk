@@ -1,10 +1,13 @@
-<div *ngIf="gapiLoadStatus==='loaded'">
+<div class="container" *ngIf="gapiLoadStatus==='loaded'">
+
   <div *ngIf="!sheetLoading">
-    <label>
-      Google Sheets spreadsheet url:
-      <input type="text" [formControl]="urlInput">
-    </label>
-    <button (click)="loadSheet()">{{nl.LOAD_SHEET}}</button>
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="{{nl.GOOGLE_SHEETS_URL}}" [formControl]="urlInput">
+      <div class="input-group-append">
+        <button class="btn btn-info" type="button" (click)="loadSheet()">{{nl.LOAD_SHEET}}</button>
+      </div>
+    </div>   
   </div>
+
   <div *ngIf="sheetLoading" class="spinner"></div>
 </div>

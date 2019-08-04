@@ -9,6 +9,10 @@ import {GapiService} from './services/gapi.service';
       #app-container {
         height: 100vh;
       }
+      #top-container {
+        position: absolute;
+        z-index: 1;
+      }
       #bottom-container {
         position: absolute;
         bottom: 0;

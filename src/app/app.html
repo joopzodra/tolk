@@ -1,7 +1,9 @@
 <div class="bg-light" id="app-container">
-  <trapp-header></trapp-header>
-  <trapp-search (searchLanguageEvent)=onSearchLanguageEvent($event)></trapp-search>
-  <trapp-display [searchLanguage]="searchLanguage"></trapp-display>
+  <div id=top-container>
+    <trapp-header></trapp-header>
+    <trapp-search (searchLanguageEvent)=onSearchLanguageEvent($event)></trapp-search>
+    <trapp-display [searchLanguage]="searchLanguage"></trapp-display>
+  </div>
   <div id="bottom-container">
     <trapp-dialog></trapp-dialog>
     <trapp-sheet></trapp-sheet>
