@@ -1,0 +1,78 @@
+{
+  "configVersion": 1,
+  "timestamp": 1565289810347,
+  "index": "/trapp/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "urls": [
+        "/trapp/favicon.ico",
+        "/trapp/index.html",
+        "/trapp/main-es2015.b74b2cd6b7b8699029ee.js",
+        "/trapp/main-es5.275eb711c6262025bcf7.js",
+        "/trapp/polyfills-es2015.7a264d14fd7126ba8db0.js",
+        "/trapp/polyfills-es5.11fb2116c81a899eaa89.js",
+        "/trapp/runtime-es2015.703a23e48ad83c851e49.js",
+        "/trapp/runtime-es5.465c2333d355155ec5f3.js",
+        "/trapp/styles.5097ad12db07b3d349b1.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "urls": [
+        "/trapp/assets/icons/icon-128x128.png",
+        "/trapp/assets/icons/icon-144x144.png",
+        "/trapp/assets/icons/icon-152x152.png",
+        "/trapp/assets/icons/icon-192x192.png",
+        "/trapp/assets/icons/icon-384x384.png",
+        "/trapp/assets/icons/icon-512x512.png",
+        "/trapp/assets/icons/icon-72x72.png",
+        "/trapp/assets/icons/icon-96x96.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/trapp/assets/icons/icon-128x128.png": "32910ef9aba63d7aaf6d795ed0c5542670eb84e4",
+    "/trapp/assets/icons/icon-144x144.png": "625c5d95dd627bb7273f23d350d7f97d82fd4bdd",
+    "/trapp/assets/icons/icon-152x152.png": "1740db6c572b49ef9d38416bf6e075594bd2995f",
+    "/trapp/assets/icons/icon-192x192.png": "b5532565936592b3a84191601b0fb1312e876ae9",
+    "/trapp/assets/icons/icon-384x384.png": "300740975c92796ac2b1fa47332539b04317f0f8",
+    "/trapp/assets/icons/icon-512x512.png": "26b6a28d850d8d73d875af2ca660a78e2bd69b28",
+    "/trapp/assets/icons/icon-72x72.png": "27e45ac1f716739f0272373573767e0705bcbe6c",
+    "/trapp/assets/icons/icon-96x96.png": "d9e6c6fa2851525f69c23b7992c34220c222f555",
+    "/trapp/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
+    "/trapp/index.html": "c901f3fcc5c0dd27da5330b580824c0cf73d4d30",
+    "/trapp/main-es2015.b74b2cd6b7b8699029ee.js": "067f4c7e6a9f45cb56642340d183d490085123e4",
+    "/trapp/main-es5.275eb711c6262025bcf7.js": "2ee528c034bada52ed6d31deded441a84c8d6284",
+    "/trapp/polyfills-es2015.7a264d14fd7126ba8db0.js": "058203dab4ba87056d6976029ba60fa42e6f75b9",
+    "/trapp/polyfills-es5.11fb2116c81a899eaa89.js": "396607375c807097fbb909c1d489ddca619b177c",
+    "/trapp/runtime-es2015.703a23e48ad83c851e49.js": "b62956c2192bfe5516d6374e753773901ed50ec5",
+    "/trapp/runtime-es5.465c2333d355155ec5f3.js": "b62956c2192bfe5516d6374e753773901ed50ec5",
+    "/trapp/styles.5097ad12db07b3d349b1.css": "d2e34d4544f43f3fa25399dffe0f59782e06ff12"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ]
+}

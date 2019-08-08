@@ -11,6 +11,8 @@ import { SheetComponent } from './sheet/sheet.component';
 import { DialogComponent } from './dialog/dialog.component';
 import { GapiComponent } from './gapi/gapi.component';
 import { HeaderComponent } from './header/header.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,7 @@ import { HeaderComponent } from './header/header.component';
     NgbAlertModule,
     NgbDropdownModule,
     NgbButtonsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [],
   bootstrap: [AppComponent]
