@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1565291233983,
+  "timestamp": 1565293099039,
   "index": "/trapp/index.html",
   "assetGroups": [
     {
@@ -8,7 +8,6 @@
       "installMode": "prefetch",
       "updateMode": "prefetch",
       "urls": [
-        "/trapp/favicon.ico",
         "/trapp/index.html",
         "/trapp/main-es2015.b74b2cd6b7b8699029ee.js",
         "/trapp/main-es5.275eb711c6262025bcf7.js",
@@ -32,7 +31,10 @@
         "/trapp/assets/icons/icon-384x384.png",
         "/trapp/assets/icons/icon-512x512.png",
         "/trapp/assets/icons/icon-72x72.png",
-        "/trapp/assets/icons/icon-96x96.png"
+        "/trapp/assets/icons/icon-96x96.png",
+        "/trapp/favicon-16x16.png",
+        "/trapp/favicon-32x32.png",
+        "/trapp/favicon-96x96.png"
       ],
       "patterns": []
     }
@@ -47,8 +49,10 @@
     "/trapp/assets/icons/icon-512x512.png": "26b6a28d850d8d73d875af2ca660a78e2bd69b28",
     "/trapp/assets/icons/icon-72x72.png": "27e45ac1f716739f0272373573767e0705bcbe6c",
     "/trapp/assets/icons/icon-96x96.png": "d9e6c6fa2851525f69c23b7992c34220c222f555",
-    "/trapp/favicon.ico": "84161b857f5c547e3699ddfbffc6d8d737542e01",
-    "/trapp/index.html": "c901f3fcc5c0dd27da5330b580824c0cf73d4d30",
+    "/trapp/favicon-16x16.png": "f2a2872d37388382c8c0ecc295b774144f729351",
+    "/trapp/favicon-32x32.png": "e152d999e3eefae6df6430e8f42e83bb0dcf2da4",
+    "/trapp/favicon-96x96.png": "a8131e825744b487c1cfa437288508d9b8cc0317",
+    "/trapp/index.html": "dbbd571384b6bce49b24edd8083cab6521835f84",
     "/trapp/main-es2015.b74b2cd6b7b8699029ee.js": "067f4c7e6a9f45cb56642340d183d490085123e4",
     "/trapp/main-es5.275eb711c6262025bcf7.js": "2ee528c034bada52ed6d31deded441a84c8d6284",
     "/trapp/polyfills-es2015.7a264d14fd7126ba8db0.js": "058203dab4ba87056d6976029ba60fa42e6f75b9",
