@@ -22,7 +22,7 @@ export class DatabaseService {
 
   constructor() {
     this.db = new Database('TrappDatabase');
-    this.db.table('glossery').count().then(c => console.log(c))
+    // this.db.table('glossery').count().then(c => console.log(c))
    }
 
    clearTableAndAddNewSheet(customizedValueRanges: CustomizedValueRange[], spreadsheetTitle: string, columnNames: string[], sheetNames: string[]) {

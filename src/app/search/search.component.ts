@@ -1,6 +1,7 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Output, EventEmitter, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
+import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap'
 
 import {DatabaseService} from '../services/database.service';
 import {nl} from '../helpers/nl';
@@ -8,9 +9,21 @@ import {nl} from '../helpers/nl';
 @Component({
   selector: 'trapp-search',
   templateUrl: './search.component.html',
+  styles: [`
+    .dropdown-fix {
+      position: relative;
+    }
+    .dropdown-menu-fix {
+      display: block;
+      top: 0px;
+      left: 0px;
+      will-change: transform;
+      position: absolute;      
+    }
+  `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
   search = new FormControl('');
   radioGroupForm: FormGroup;
   searchLanguage = 'lang1';
@@ -19,6 +32,11 @@ export class SearchComponent implements OnInit {
   sheetNames = [];
   nl = nl;
   sheetFilterText = '';
+  @ViewChild('dropdown', {static: false})
+  private dropdown: ElementRef;
+  @ViewChild('dropdownMenu', {static: false})
+  private dropdownMenu: ElementRef;
+  dropdownOpen = false;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -53,6 +71,8 @@ export class SearchComponent implements OnInit {
     .subscribe(searchTerm => {
       this.databaseService.select(searchTerm, this.searchLanguage, this.sheetFilterText);
     });
+
+    document.querySelector('body').addEventListener('click', this.closeDropdown.bind(this));
   }
 
   clearInput() {
@@ -62,5 +82,31 @@ export class SearchComponent implements OnInit {
   sheetFilter(sheetName) {
     this.sheetFilterText = sheetName;
     this.databaseService.select(this.search.value, this.searchLanguage, this.sheetFilterText);
+  }
+
+  toggleDropdown() {
+    if (!this.dropdownOpen) {      
+      this.dropdown.nativeElement.classList.add('dropdown-fix');
+      this.dropdownMenu.nativeElement.classList.add('dropdown-menu-fix');
+      const topPosition = this.dropdown.nativeElement.clientHeight;
+      const leftPosition = this.dropdown.nativeElement.clientWidth - this.dropdownMenu.nativeElement.clientWidth;
+      this.dropdownMenu.nativeElement.style.transform = 
+        `translate(${Math.round(leftPosition)}px, ${Math.round(topPosition)}px)`;
+      this.dropdownOpen = true;
+    } else {
+      this.closeDropdown();
+    }
+  }
+
+  closeDropdown() {
+      if (this.dropdown) {
+      this.dropdown.nativeElement.classList.remove('dropdown-fix');
+      this.dropdownMenu.nativeElement.classList.remove('dropdown-menu-fix');
+      this.dropdownOpen = false;
+    }
+  }
+
+  ngOnDestroy() {
+    document.querySelector('body').removeEventListener('click', this.closeDropdown.bind(this));
   }
 }

@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="columnNames[0] && columnNames[1]">
 
   <div class="row">
   <form class="col-8 mb-1 pr-2" [formGroup]="radioGroupForm">
@@ -13,11 +13,11 @@
   </form>
 
   <div class="col-4" *ngIf="sheetNames.length > 1">
-    <div ngbDropdown class="d-inline-block w-100" placement="bottom-right">
-      <button #sheetFilterButton class="btn btn-outline-info text-truncate w-100" ngbDropdownToggle>{{sheetFilterText || nl.ALL_SHEETS}}</button>
-      <div ngbDropdownMenu class="text-truncate">
-        <button ngbDropdownItem (click)="sheetFilter('')">{{nl.ALL_SHEETS}}</button>
-        <button *ngFor="let sheetName of sheetNames" ngbDropdownItem (click)="sheetFilter(sheetName)">{{sheetName}}</button>
+    <div ngbDropdown #dropdown class="d-inline-block w-100" placement="bottom-right">
+      <button class="btn btn-outline-info text-truncate w-100" ngbDropdownToggle (click)="toggleDropdown()">{{sheetFilterText || nl.ALL_SHEETS}}</button>
+      <div ngbDropdownMenu #dropdownMenu class="text-truncate">
+        <button ngbDropdownItem (click)="sheetFilter(''); toggleDropdown()">{{nl.ALL_SHEETS}}</button>
+        <button *ngFor="let sheetName of sheetNames" ngbDropdownItem (click)="sheetFilter(sheetName);">{{sheetName}}</button>
       </div>
     </div>
   </div>

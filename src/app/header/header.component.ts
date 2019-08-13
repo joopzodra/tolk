@@ -10,7 +10,7 @@ import {nl} from '../helpers/nl';
 })
 export class HeaderComponent implements OnInit {
 
-  spreadSheetTitle = 'Geen sheet';
+  spreadSheetTitle = '';
 
   constructor(private databaseService: DatabaseService, private changeDetector: ChangeDetectorRef) { }
 
