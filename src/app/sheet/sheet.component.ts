@@ -14,7 +14,7 @@ import {GapiService} from '../services/gapi.service';
  */
 
 @Component({
-  selector: 'trapp-sheet',
+  selector: 'tolk-sheet',
   templateUrl: './sheet.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })

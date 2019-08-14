@@ -4,7 +4,7 @@ import {DatabaseService} from '../services/database.service';
 import {nl} from '../helpers/nl';
 
 @Component({
-  selector: 'trapp-header',
+  selector: 'tolk-header',
   templateUrl: './header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })

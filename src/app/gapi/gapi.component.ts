@@ -10,7 +10,7 @@ import {nl} from '../helpers/nl';
  */
 
 @Component({
-  selector: 'trapp-gapi',
+  selector: 'tolk-gapi',
   templateUrl: './gapi.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })

@@ -6,7 +6,7 @@ import {DialogService, DialogMessage} from '../services/dialog.service';
 import {nl} from '../helpers/nl';
 
 @Component({
-  selector: 'trapp-dialog',
+  selector: 'tolk-dialog',
   templateUrl: './dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })

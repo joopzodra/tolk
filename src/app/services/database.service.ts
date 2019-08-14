@@ -21,7 +21,7 @@ export class DatabaseService {
   public selectionStream = this.selection.asObservable();
 
   constructor() {
-    this.db = new Database('TrappDatabase');
+    this.db = new Database('TolkDatabase');
     // this.db.table('glossery').count().then(c => console.log(c))
    }
 

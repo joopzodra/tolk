@@ -4,7 +4,7 @@ import {DatabaseService} from '../services/database.service';
 import {nl} from '../helpers/nl';
 
 @Component({
-  selector: 'trapp-display',
+  selector: 'tolk-display',
   templateUrl: './display.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,  
 })

@@ -3,7 +3,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import {GapiService} from './services/gapi.service';
 
 @Component({
-  selector: 'trapp-root',
+  selector: 'tolk-root',
   templateUrl: './app.html',
   styles: [`
       #app-container {

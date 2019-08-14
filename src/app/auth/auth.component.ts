@@ -11,7 +11,7 @@ import {nl} from '../helpers/nl';
  */
 
 @Component({
-  selector: 'trapp-auth',
+  selector: 'tolk-auth',
   templateUrl: './auth.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })

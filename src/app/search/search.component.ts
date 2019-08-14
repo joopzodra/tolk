@@ -7,7 +7,7 @@ import {DatabaseService} from '../services/database.service';
 import {nl} from '../helpers/nl';
 
 @Component({
-  selector: 'trapp-search',
+  selector: 'tolk-search',
   templateUrl: './search.component.html',
   styles: [`
     .dropdown-fix {

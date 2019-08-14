@@ -3,11 +3,11 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "trapp": {
+    "tolk": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
-      "prefix": "trapp",
+      "prefix": "tolk",
       "schematics": {
         "@schematics/angular:class": {
           "spec": false
@@ -35,7 +35,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/trapp",
+            "outputPath": "dist/tolk",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -85,18 +85,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "trapp:build"
+            "browserTarget": "tolk:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "trapp:build:production"
+              "browserTarget": "tolk:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "trapp:build"
+            "browserTarget": "tolk:build"
           }
         },
         "test": {
@@ -132,5 +132,5 @@
       }
     }
   },
-  "defaultProject": "trapp"
+  "defaultProject": "tolk"
 }

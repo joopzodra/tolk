@@ -1,11 +1,11 @@
 {
-  "name": "trapp",
-  "short_name": "trapp",
+  "name": "tolk",
+  "short_name": "tolk",
   "theme_color": "#1976d2",
   "background_color": "#fafafa",
   "display": "standalone",
-  "scope": "/trapp/",
-  "start_url": "/trapp/index.html",
+  "scope": "/tolk/",
+  "start_url": "/tolk/index.html",
   "icons": [
     {
       "src": "assets/icons/icon-72x72.png",
