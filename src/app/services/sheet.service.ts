@@ -15,12 +15,12 @@ export class SheetService {
 
   constructor(private databaseService: DatabaseService, private dialogService: DialogService) { }
 
-  loadSheet(spreadsheetIdOrUrl): Promise<any> {
-    const spreadsheetId = this.extractId(spreadsheetIdOrUrl);
+  loadSheet(url): Promise<any> {
+    const spreadsheetId = this.extractId(url);
     if (!spreadsheetId) {
-      return Promise.reject('noId');
+      return Promise.reject({status: 'noId'});
     }
-
+    this.saveUrl(url);
     return gapi.client.sheets.spreadsheets.get({
       spreadsheetId: spreadsheetId,
     })
@@ -62,10 +62,10 @@ export class SheetService {
     if (url.trim().length === 0) {
       return undefined;
     }
-    const idInUrl = /https:\/\/docs\.google\.com\/spreadsheets\/d\/(.*)\/edit.*/i;
+    const idInUrl = /\/spreadsheets\/d\/([a-zA-Z0-9-_]+)/i;
     const matches = url.match(idInUrl);
     const idFromUrl = matches && matches[1] ? matches[1] : undefined;
-    return idFromUrl ? idFromUrl : url;
+    return idFromUrl;
   }
 
   setColumnNames(columnNames) {
@@ -80,5 +80,15 @@ export class SheetService {
     }
     newColumnNames = newColumnNames.map((name, index) => name ? name : nl.COLUMN + ' ' + ['A', 'B'][index]);
     return newColumnNames   
+  }
+
+  saveUrl(urlToSave) {
+    const urlsArray = JSON.parse(localStorage.getItem('spreadsheetUrls')) || [];
+    let newUrlsArray = urlsArray.filter(url => url !== urlToSave);
+    newUrlsArray.unshift(urlToSave);
+    if (newUrlsArray.length > 3) {
+      newUrlsArray.pop();
+    }
+    localStorage.setItem('spreadsheetUrls', JSON.stringify(newUrlsArray));
   }
 }

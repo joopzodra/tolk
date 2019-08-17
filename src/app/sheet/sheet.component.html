@@ -1,8 +1,13 @@
 <div class="container" *ngIf="gapiLoadStatus==='loaded'">
 
   <div *ngIf="!sheetLoading">
-    <div id="sheet-input-group" class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="{{nl.GOOGLE_SHEETS_URL}}" [formControl]="urlInput">
+    <div>
+      <ul *ngIf="urlsList.length" class="list-group">
+        <button type="button" *ngFor="let url of urlsList" class="list-group-item list-group-item-action url-list-item" (click)="selectUrl(url)">{{url}}</button>
+      </ul>
+    </div>
+    <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="{{nl.GOOGLE_SHEETS_URL}}" [formControl]="urlInput" (focus)="onInputFocus()" (focusout)="onInputFocusOut()">
       <div class="input-group-append">
         <button class="btn btn-info" type="button" (click)="loadSheet()">{{nl.LOAD_SHEET}}</button>
       </div>

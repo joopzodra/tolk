@@ -4,7 +4,7 @@
     <tolk-search (searchLanguageEvent)=onSearchLanguageEvent($event)></tolk-search>
     <tolk-display [searchLanguage]="searchLanguage"></tolk-display>
   </div>
-  <div id="bottom-container">
+  <div id="bottom-container" *ngIf="!selectionSearchTerm">
     <tolk-dialog></tolk-dialog>
     <tolk-sheet></tolk-sheet>
     <tolk-gapi></tolk-gapi>

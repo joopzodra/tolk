@@ -5,6 +5,7 @@ export const nl = {
 
   LOAD_SHEET: 'Laden',
   INCORRECT_SPREADSHEET_URL: 'Geen spreadsheet gevonden bij deze url.',
+  NO_SPREADSHEET_ID: 'De url bevat geen geldige spreadsheet id.',
   SPREADSHEET_REQUIRES_AUTORIZATION: 'Deze spreadsheet is niet publiek. Je moet inloggen bij Google met het account voor deze sheet.',
   SHEETS_LOADING_ERROR: 'Het lukt niet om Google Sheets binnen te halen.',
   SHEETS_LOADING_SUCCES: 'Je Google sheet is opgeslagen in Tolk',
@@ -14,13 +15,13 @@ export const nl = {
   SEARCH_LANGUAGE: 'Zoek in',
   SHEETS: 'Sheets',
   ALL_SHEETS: 'Alle sheets',
-  GOOGLE_SHEETS_URL: 'Spreadsheet url',
+  GOOGLE_SHEETS_URL: 'Geef spreadsheet url op ...',
 
   SIGN_IN: 'Inloggen',
   SIGN_OUT: 'Uitloggen',
 
-  DATABASE_EMPTY: 'De database is leeg. Je moet een spreadsheet laden.',
-  DATABASE_CLOSED_ERROR: 'De database is verwijderd. Je moet een spreadsheet laden.',
+  DATABASE_EMPTY: 'De app heeft geen data. Je moet een spreadsheet laden.',
+  DATABASE_CLOSED_ERROR: 'De app heeft geen data. Je moet een spreadsheet laden.',
 
   SEARCH_FOR: 'Zoek ...',
   NO_SEARCHRESULTS: 'Geen resultaat gevonden bij je zoekterm.',

@@ -18,8 +18,9 @@ import {GapiService} from '../services/gapi.service';
   templateUrl: './sheet.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [`
-      #sheet-input-group {
-        z-index: 0;
+      .url-list-item {
+        word-break: break-word;
+        font-size: 0.8rem;
       }
     `]
   })
@@ -29,6 +30,7 @@ export class SheetComponent implements OnInit {
   gapiLoadStatus = '';
   sheetLoading = false;
   nl = nl;
+  urlsList: string[] = [];
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -66,11 +68,27 @@ export class SheetComponent implements OnInit {
         case 403:
           this.dialogService.emitMessage('danger', nl.SPREADSHEET_REQUIRES_AUTORIZATION, 8000);
           break;
+        case 'noId':
+          this.dialogService.emitMessage('danger', nl.NO_SPREADSHEET_ID, 8000);
+          break;  
         default:
           this.dialogService.emitMessage('danger', nl.SHEETS_LOADING_ERROR, 8000);
           break;
       }      
     });
+  }
+
+  onInputFocus() {
+    this.urlsList = JSON.parse(localStorage.getItem('spreadsheetUrls')) || [];
+  }
+
+  onInputFocusOut() {
+    this.urlsList = [];
+  }
+
+  selectUrl(url) {
+    this.urlsList = [];
+    this.urlInput.setValue(url);
   }
 
 }
