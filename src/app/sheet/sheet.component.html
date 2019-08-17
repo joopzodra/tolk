@@ -1,7 +1,7 @@
 <div class="container" *ngIf="gapiLoadStatus==='loaded'">
 
   <div *ngIf="!sheetLoading">
-    <div class="input-group mb-3">
+    <div id="sheet-input-group" class="input-group mb-3">
       <input type="text" class="form-control" placeholder="{{nl.GOOGLE_SHEETS_URL}}" [formControl]="urlInput">
       <div class="input-group-append">
         <button class="btn btn-info" type="button" (click)="loadSheet()">{{nl.LOAD_SHEET}}</button>

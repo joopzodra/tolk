@@ -19,6 +19,11 @@ import {GapiService} from './services/gapi.service';
         bottom: 0;
         width: 100%;
       }
+      @media only screen and (max-height: 310px) {
+        #bottom-container {
+        display: none;
+        }
+      }
   `]
 })
 export class AppComponent implements OnInit {

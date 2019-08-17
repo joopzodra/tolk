@@ -48,7 +48,7 @@ export class AuthService {
     if (gapi && gapi.auth2) {
       return true;
     } else {
-      this.dialogService.emitMessage('error', nl.NO_GAPI_LOADED, 8000);
+      this.dialogService.emitMessage('danger', nl.NO_GAPI_LOADED, 8000);
       return false;
     }
   }

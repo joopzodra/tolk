@@ -4,10 +4,24 @@ import { Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import {Database} from '../helpers/database';
+import {DialogService } from '../services/dialog.service';
+import {nl} from '../helpers/nl';
+import {unhandledRejectionReasons} from '../helpers/database-unhandled-rejection-reasons';
 
 interface CustomizedValueRange {
   sheetName: string,
   values: string[][]
+}
+
+export interface Selection {
+  searchTerm: string,
+  items: {lang1: string, lang2: string}[]
+}
+
+interface SheetMeta {
+  spreadsheetTitle: string,
+  columnNames: string[],
+  sheetNames: string[]
 }
 
 @Injectable({
@@ -15,14 +29,23 @@ interface CustomizedValueRange {
 })
 export class DatabaseService {
   db: Database;
-  private sheetMeta = new Subject<{ spreadsheetTitle: string, columnNames: string[], sheetNames: string[]}>();
+  private sheetMeta = new Subject<SheetMeta>();
   public sheetMetaStream = this.sheetMeta.asObservable();
-  private selection = new Subject<{lang1: string, lang2: string}[]>();
+  private selection = new Subject<Selection>();
   public selectionStream = this.selection.asObservable();
 
-  constructor() {
+  constructor(private dialogService: DialogService) {
     this.db = new Database('TolkDatabase');
-    // this.db.table('glossery').count().then(c => console.log(c))
+    // Error handling in case browser data is manually deleted by user
+    window.onunhandledrejection = event => {
+      event.preventDefault();
+      const rejectionReasonName = event.reason.name;
+      if (unhandledRejectionReasons[rejectionReasonName]) {
+        this.dialogService.emitMessage('warning', unhandledRejectionReasons[rejectionReasonName], 10000);
+      } else {
+        this.dialogService.emitMessage('danger', event.reason.message, 10000);
+      }
+    };
    }
 
    clearTableAndAddNewSheet(customizedValueRanges: CustomizedValueRange[], spreadsheetTitle: string, columnNames: string[], sheetNames: string[]) {
@@ -48,8 +71,9 @@ export class DatabaseService {
   }
 
   select(term, column, sheet) {
+    this.db.glossery.count().then(count => count !== 0 || this.dialogService.emitMessage('warning', nl.DATABASE_EMPTY, 8000));
     if (term === '') {
-      this.selection.next([]); 
+      this.selection.next({searchTerm: term, items: []}); 
       return;     
     }
     if (sheet) {
@@ -60,7 +84,7 @@ export class DatabaseService {
       .toArray()
       .then(result => {
         const picked = result.map(row => ({lang1: row.lang1, lang2: row.lang2}));
-        this.selection.next(picked);
+        this.selection.next({searchTerm: term, items: picked});
       });      
     } else {
       this.db.glossery
@@ -69,7 +93,7 @@ export class DatabaseService {
       .toArray()
       .then(result => {
         const picked = result.map(row => ({lang1: row.lang1, lang2: row.lang2}));
-        this.selection.next(picked);
+        this.selection.next({searchTerm: term, items: picked});
       });      
     }
 

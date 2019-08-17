@@ -16,8 +16,13 @@ import {GapiService} from '../services/gapi.service';
 @Component({
   selector: 'tolk-sheet',
   templateUrl: './sheet.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
-})
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styles: [`
+      #sheet-input-group {
+        z-index: 0;
+      }
+    `]
+  })
 export class SheetComponent implements OnInit {
 
   urlInput = new FormControl('');

@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import {of} from 'rxjs';
-import {tap, map, concatMap, delay} from 'rxjs/operators';
+import {tap, map, concatMap, delay, filter} from 'rxjs/operators';
 
 import {DialogService, DialogMessage} from '../services/dialog.service';
 import {nl} from '../helpers/nl';
@@ -22,6 +22,7 @@ export class DialogComponent implements OnInit {
     let counter = 0;
     this.errorService.dialogStream
     .pipe(
+      filter(message => this.isNewMessage(message)),
       tap(message => {
         this.messages[++counter] = message;
         this.changeDetector.detectChanges();
@@ -37,5 +38,9 @@ export class DialogComponent implements OnInit {
   clearMessage(key: number) {
     delete this.messages[key];
     this.changeDetector.detectChanges();
+  }
+
+  isNewMessage(message) {
+    return !Object.values(this.messages).some(mess => mess.body === message.body);
   }
 }

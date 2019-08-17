@@ -1,17 +1,17 @@
 import { Component, OnInit, Input, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 
-import {DatabaseService} from '../services/database.service';
+import {DatabaseService, Selection} from '../services/database.service';
 import {nl} from '../helpers/nl';
 
 @Component({
   selector: 'tolk-display',
   templateUrl: './display.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,  
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DisplayComponent implements OnInit {
   columnNames = ['',''];
   nl = nl;
-  selection = [];
+  selection: Selection = {searchTerm: '', items:[]};
   @Input() searchLanguage: string;
 
   constructor(

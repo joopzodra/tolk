@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+  import { Injectable } from '@angular/core';
 
 import {DatabaseService } from './database.service';
 import {DialogService} from './dialog.service';
@@ -42,6 +42,7 @@ export class SheetService {
         this.columnNames = valueRanges[0].values.slice(0,1)[0];
       }
       this.columnNames = this.setColumnNames(this.columnNames);
+      // First rows are expected to be the column names. Remove them all.
       valueRanges.forEach(valueRange => valueRange.values.shift());
       const customizedValueRanges = valueRanges.map(valueRange => ({sheetName: valueRange.range.split('!')[0], values: valueRange.values}));
       return this.databaseService.clearTableAndAddNewSheet(customizedValueRanges, this.spreadsheetTitle, this.columnNames, this.sheetNames);

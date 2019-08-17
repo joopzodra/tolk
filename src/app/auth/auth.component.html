@@ -1,8 +1,10 @@
-<div *ngIf="gapiLoadStatus === 'loaded'" class="container border-top py-2">
-    <div class="d-flex justify-content-between align-items-center text-info" *ngIf="username" style="font-size: 14px;">Bij Google ingelogd als: {{username}}
+<div *ngIf="gapiLoadStatus === 'loaded'" class="container">
+  <div class="container py-2 border-top">
+    <div class="d-flex justify-content-between align-items-center text-info" *ngIf="username" style="font-size: 14px;">{{nl.SIGNED_IN_AS}} {{username}}
       <button id="signout-button" class="btn btn-outline-info btn-sm" (click)="onSignOut()">{{nl.SIGN_OUT}}</button>
     </div>
-    <div class="d-flex justify-content-between align-items-center text-info" *ngIf="!username" style="font-size: 14px;">Niet bij Google ingelogd.
+    <div class="d-flex justify-content-between align-items-center text-info" *ngIf="!username" style="font-size: 14px;">{{nl.NOT_SIGNED_IN}}
       <button id="authorize-button" class="btn btn-outline-info btn-sm" (click)="onSignIn()">{{nl.SIGN_IN}}</button>
     </div>
+  </div>
 <div>

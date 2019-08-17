@@ -1,14 +1,21 @@
 <div class="container mt-3">
-  <table class="table table-sm w-100 bg-white" style="table-layout: fixed;">
-    <tr *ngIf="selection.length">
-      <th class="text-truncate w-50" *ngIf="searchLanguage==='lang1'">{{columnNames[0]}}</th>
-      <th class="text-truncate w-50">{{columnNames[1]}}</th>
-      <th class="text-truncate w-50" *ngIf="searchLanguage==='lang2'">{{columnNames[0]}}</th>
-    </tr>
-    <tr *ngFor="let row of selection">
-      <td *ngIf="searchLanguage==='lang1'">{{row.lang1}}</td>
-      <td>{{row.lang2}}</td>
-      <td *ngIf="searchLanguage==='lang2'">{{row.lang1}}</td>
+  <table class="table d-block table-sm w-100 bg-white" style="table-layout: fixed;">
+    <thead>
+      <tr *ngIf="selection.items.length">
+        <th class="text-truncate w-50" *ngIf="searchLanguage==='lang1'">{{columnNames[0]}}</th>
+        <th class="text-truncate w-50">{{columnNames[1]}}</th>
+        <th class="text-truncate w-50" *ngIf="searchLanguage==='lang2'">{{columnNames[0]}}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let row of selection.items">
+        <td *ngIf="searchLanguage==='lang1'">{{row.lang1}}</td>
+        <td>{{row.lang2}}</td>
+        <td *ngIf="searchLanguage==='lang2'">{{row.lang1}}</td>
+      </tr>
+    </tbody>
+    <tr class="d-block  w-100" *ngIf="!selection.items.length && selection.searchTerm !== '' ">
+      <td class="d-block">{{nl.NO_SEARCHRESULTS}}</td>
     </tr>
   </table>
 </div>
