@@ -84,11 +84,23 @@ export class SheetService {
 
   saveUrl(urlToSave) {
     const urlsArray = JSON.parse(localStorage.getItem('spreadsheetUrls')) || [];
-    let newUrlsArray = urlsArray.filter(url => url !== urlToSave);
-    newUrlsArray.unshift(urlToSave);
-    if (newUrlsArray.length > 3) {
-      newUrlsArray.pop();
+    urlsArray.push({url: urlToSave, uploadResult: ''});
+    if (urlsArray.length > 3) {
+      urlsArray.shift();
     }
-    localStorage.setItem('spreadsheetUrls', JSON.stringify(newUrlsArray));
+    localStorage.setItem('spreadsheetUrls', JSON.stringify(urlsArray));
+  }
+
+  setUrlUploadResult(url, uploadResult) {
+    const urlsArray = JSON.parse(localStorage.getItem('spreadsheetUrls'));
+    if (urlsArray) {
+      const date = new Date();
+      const prefix = uploadResult === 'succes' ? nl.UPLOAD_SUCCES_AT : nl.UPLOAD_ERROR_AT;
+      urlsArray.reverse();
+      const urlItem = urlsArray.find(item => item.url = url);
+      urlItem.uploadResult = `${prefix} ${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+      urlsArray.reverse();
+      localStorage.setItem('spreadsheetUrls', JSON.stringify(urlsArray));      
+    }
   }
 }

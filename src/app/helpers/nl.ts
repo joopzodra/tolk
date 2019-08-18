@@ -12,6 +12,8 @@ export const nl = {
   SPREADSHEET_REQUIRES_AUTORIZATION: 'Deze spreadsheet is niet publiek. Je moet inloggen bij Google met het account voor deze sheet.',
   SHEETS_LOADING_ERROR: 'Het lukt niet om Google Sheets binnen te halen.',
   SHEETS_LOADING_SUCCES: 'Je Google sheet is opgeslagen in Tolk',
+  UPLOAD_SUCCES_AT: 'Geüpload op',
+  UPLOAD_ERROR_AT: 'Mislukte upload poging op',
   
   NO_SPREADSHEET_TITLE: 'Geen sheet',
   COLUMN: 'kolom',

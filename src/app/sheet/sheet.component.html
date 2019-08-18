@@ -3,7 +3,7 @@
   <div *ngIf="!sheetLoading">
     <div>
       <ul *ngIf="urlsList.length" class="list-group">
-        <button type="button" *ngFor="let url of urlsList" class="list-group-item list-group-item-action url-list-item" (click)="selectUrl(url)">{{url}}</button>
+        <button type="button" *ngFor="let item of urlsList" class="list-group-item list-group-item-action url-list-item" (click)="selectUrl(item.url)">{{item.url}}<br><span><small><em>{{item.uploadResult}}</em></small></span></button>
       </ul>
     </div>
     <div class="input-group mb-3">

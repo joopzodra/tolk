@@ -58,6 +58,7 @@ export class SheetComponent implements OnInit, OnDestroy {
       this.sheetLoading = false;
       this.changeDetector.detectChanges();
       this.dialogService.emitMessage('success', nl.SHEETS_LOADING_SUCCES, 4000);
+      this.sheetService.setUrlUploadResult(this.urlInput.value, 'succes', );
     })
     .catch(response => {
       this.sheetLoading = false;
@@ -75,7 +76,8 @@ export class SheetComponent implements OnInit, OnDestroy {
         default:
           this.dialogService.emitMessage('danger', nl.SHEETS_LOADING_ERROR, 8000);
           break;
-      }      
+      }
+      this.sheetService.setUrlUploadResult(this.urlInput.value, 'error', );
     });
   }
 
