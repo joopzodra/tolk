@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import {DatabaseService, Selection} from '../services/database.service';
 import {nl} from '../helpers/nl';
@@ -8,11 +9,13 @@ import {nl} from '../helpers/nl';
   templateUrl: './display.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DisplayComponent implements OnInit {
+export class DisplayComponent implements OnInit, OnDestroy {
   columnNames = ['',''];
   nl = nl;
   selection: Selection = {searchTerm: '', items:[]};
   @Input() searchLanguage: string;
+  sheetMetaSubscription: Subscription;
+  selectionSubscription: Subscription;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -34,5 +37,10 @@ export class DisplayComponent implements OnInit {
       this.selection = selection;
       this.changeDetector.detectChanges();
     });
+  }
+
+  ngOnDestroy() {
+    this.sheetMetaSubscription.unsubscribe();
+    this.selectionSubscription.unsubscribe();
   }
 }

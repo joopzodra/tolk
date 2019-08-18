@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import {DatabaseService} from '../services/database.service';
 import {nl} from '../helpers/nl';
@@ -8,9 +9,10 @@ import {nl} from '../helpers/nl';
   templateUrl: './header.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
 
   spreadSheetTitle = '';
+  sheetMetaSubscription: Subscription;
 
   constructor(private databaseService: DatabaseService, private changeDetector: ChangeDetectorRef) { }
 
@@ -22,5 +24,9 @@ export class HeaderComponent implements OnInit {
       this.spreadSheetTitle = sheetMeta.spreadsheetTitle;
       this.changeDetector.detectChanges();
     });
+  }
+
+  ngOnDestroy() {
+    this.sheetMetaSubscription.unsubscribe();
   }
 }

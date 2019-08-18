@@ -1,7 +1,8 @@
 import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Output, EventEmitter, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
-import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap'
+import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
+import { Subscription } from 'rxjs';
 
 import {DatabaseService} from '../services/database.service';
 import {nl} from '../helpers/nl';
@@ -32,6 +33,11 @@ export class SearchComponent implements OnInit, OnDestroy {
   sheetNames = [];
   nl = nl;
   sheetFilterText = '';
+  sheetMetaSubscription: Subscription;
+  radioGroupValueSubscription: Subscription;
+  searchValueSubscription: Subscription;
+
+  // Dropdown properties. NgBootstrap doesn't show the options before page refreshing, so we handle this by ourselves.
   @ViewChild('dropdown', {static: false})
   private dropdown: ElementRef;
   @ViewChild('dropdownMenu', {static: false})
@@ -49,7 +55,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.sheetNames = JSON.parse(localStorage.getItem('sheetNames')) || this.sheetNames;
     this.searchLanguageEvent.emit(this.searchLanguage);
 
-    this.databaseService.sheetMetaStream.subscribe(sheetMeta => {
+    this.sheetMetaSubscription = this.databaseService.sheetMetaStream.subscribe(sheetMeta => {
       this.columnNames = sheetMeta.columnNames;
       this.sheetNames = sheetMeta.sheetNames;
       this.changeDetector.detectChanges();
@@ -59,12 +65,12 @@ export class SearchComponent implements OnInit, OnDestroy {
       'lang': 'lang1'
     });
 
-    this.radioGroupForm.get('lang').valueChanges.subscribe(lang => {
+    this.radioGroupValueSubscription = this.radioGroupForm.get('lang').valueChanges.subscribe(lang => {
       this.searchLanguage = lang;
       this.searchLanguageEvent.emit(lang);
     });
 
-    this.search.valueChanges
+    this.searchValueSubscription = this.search.valueChanges
     .pipe(
       debounceTime(250),      
     )
@@ -84,6 +90,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     this.databaseService.select(this.search.value, this.searchLanguage, this.sheetFilterText);
   }
 
+  // NgBootstrap doesn't show the options before page refreshing, so we handle this by ourselves.
   toggleDropdown() {
     if (!this.dropdownOpen) {      
       this.dropdown.nativeElement.classList.add('dropdown-fix');
@@ -97,7 +104,6 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.closeDropdown();
     }
   }
-
   closeDropdown() {
       if (this.dropdown) {
       this.dropdown.nativeElement.classList.remove('dropdown-fix');
@@ -105,8 +111,10 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.dropdownOpen = false;
     }
   }
-
   ngOnDestroy() {
+    this.sheetMetaSubscription.unsubscribe();
+    this.radioGroupValueSubscription.unsubscribe();
+    this.searchValueSubscription.unsubscribe();
     document.querySelector('body').removeEventListener('click', this.closeDropdown.bind(this));
   }
 }

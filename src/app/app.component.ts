@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import {GapiService} from './services/gapi.service';
 import {DatabaseService, Selection} from './services/database.service';
@@ -28,9 +29,10 @@ import {DatabaseService, Selection} from './services/database.service';
       }
   `]
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, OnDestroy {
   searchLanguage: string;
   selectionSearchTerm: string = '';
+  selectionStreamSubscription: Subscription;
 
   constructor(private gapiService: GapiService, private databaseService: DatabaseService) {}
 
@@ -44,5 +46,9 @@ export class AppComponent implements OnInit {
 
   onSearchLanguageEvent(lang) {
     this.searchLanguage = lang;
+  }
+
+  ngOnDestroy() {
+    this.selectionStreamSubscription.unsubscribe();
   }
 }

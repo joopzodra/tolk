@@ -1,4 +1,5 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import {GapiService} from '../services/gapi.service';
 import {DialogService} from '../services/dialog.service';
@@ -14,10 +15,11 @@ import {nl} from '../helpers/nl';
   templateUrl: './gapi.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GapiComponent implements OnInit {
+export class GapiComponent implements OnInit, OnDestroy {
 
   gapiLoadStatus = '';
   nl = nl;
+  gapiLoadStatusSubscription: Subscription;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -26,7 +28,7 @@ export class GapiComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.gapiService.gapiLoadStatusStream.subscribe(status => {
+    this.gapiLoadStatusSubscription = this.gapiService.gapiLoadStatusStream.subscribe(status => {
       this.gapiLoadStatus = status;
       this.changeDetector.detectChanges();
       if (status === 'error') {
@@ -37,5 +39,9 @@ export class GapiComponent implements OnInit {
 
   loadGapi() {
     this.gapiService.loadGapi();
+  }
+
+  ngOnDestroy() {
+    this.gapiLoadStatusSubscription.unsubscribe();
   }
 }

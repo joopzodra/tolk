@@ -1,6 +1,6 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import {Observable} from 'rxjs';
+import {Observable, Subscription} from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 import {SheetService} from '../services/sheet.service';
@@ -24,13 +24,14 @@ import {GapiService} from '../services/gapi.service';
       }
     `]
   })
-export class SheetComponent implements OnInit {
+export class SheetComponent implements OnInit, OnDestroy {
 
   urlInput = new FormControl('');
   gapiLoadStatus = '';
   sheetLoading = false;
   nl = nl;
   urlsList: string[] = [];
+  gapiLoadStatusSubscription: Subscription;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -40,7 +41,7 @@ export class SheetComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.gapiService.gapiLoadStatusStream.subscribe(status => {
+    this.gapiLoadStatusSubscription = this.gapiService.gapiLoadStatusStream.subscribe(status => {
       this.gapiLoadStatus = status;
       this.changeDetector.detectChanges();
     });
@@ -89,6 +90,10 @@ export class SheetComponent implements OnInit {
   selectUrl(url) {
     this.urlsList = [];
     this.urlInput.setValue(url);
+  }
+
+  ngOnDestroy() {
+    this.gapiLoadStatusSubscription.unsubscribe();
   }
 
 }

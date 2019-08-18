@@ -1,5 +1,6 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
 import { distinctUntilKeyChanged, map } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 import {GapiService} from '../services/gapi.service';
 import {AuthService} from '../services/auth.service';
@@ -15,11 +16,12 @@ import {nl} from '../helpers/nl';
   templateUrl: './auth.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AuthComponent implements OnInit {
+export class AuthComponent implements OnInit, OnDestroy {
 
   gapiLoadStatus = '';
   username: string;
   nl = nl;
+  gapiLoadStatusSubscription: Subscription;
 
   constructor(
     private gapiService: GapiService,
@@ -28,7 +30,7 @@ export class AuthComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    this.gapiService.gapiLoadStatusStream.subscribe(status => {
+    this.gapiLoadStatusSubscription = this.gapiService.gapiLoadStatusStream.subscribe(status => {
       this.gapiLoadStatus = status;
       this.changeDetector.detectChanges();
     });
@@ -45,6 +47,10 @@ export class AuthComponent implements OnInit {
 
   onSignOut() {
     this.authService.signOut();
+  }
+
+  ngOnDestroy() {
+    this.gapiLoadStatusSubscription.unsubscribe();
   }
 
 }
