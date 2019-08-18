@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy, } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import {DatabaseService, Selection} from './services/database.service';
@@ -7,6 +7,7 @@ import {GapiService} from './services/gapi.service';
 @Component({
   selector: 'tolk-root',
   templateUrl: './app.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [`
       #app-container {
         height: 100vh;
@@ -35,13 +36,21 @@ export class AppComponent implements OnInit, OnDestroy {
   gapiStatus: string = '';
   gapiStatusSubscription: Subscription;
 
-  constructor(private databaseService: DatabaseService, private gapiService: GapiService) {}
+  constructor(
+    private databaseService: DatabaseService,
+    private gapiService: GapiService,
+    private changeDetector: ChangeDetectorRef,
+    ) {}
 
   ngOnInit() {
     this.selectionStreamSubscription = this.databaseService.selectionStream.subscribe(selection => {
       this.selectionSearchTerm = selection.searchTerm;
+      this.changeDetector.detectChanges();
     });
-    this.gapiStatusSubscription = this.gapiService.gapiStatusStream.subscribe(status => this.gapiStatus = status);
+    this.gapiStatusSubscription = this.gapiService.gapiStatusStream.subscribe(status => {
+      this.gapiStatus = status;
+      this.changeDetector.detectChanges();
+    });
   }
 
   onSearchLanguageEvent(lang) {
