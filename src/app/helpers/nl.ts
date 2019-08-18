@@ -1,7 +1,10 @@
 export const nl = {
   NO_GAPI_LOADED: 'Het lukt niet om verbinding te maken met Google.',
+  TRY_LOAD_GAPI: 'Probeer opnieuw',
   NOT_SIGNED_IN: 'Niet bij Google ingelogd',
   SIGNED_IN_AS: 'Bij Google ingelogd als:',
+  LOGIN_CANCELLED: 'Inloggen is afgebroken',
+  LOGOUT_CANCELLED: 'Uitloggen is afgebroken',
 
   LOAD_SHEET: 'Laden',
   INCORRECT_SPREADSHEET_URL: 'Geen spreadsheet gevonden bij deze url.',

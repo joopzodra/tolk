@@ -1,4 +1,4 @@
-<div *ngIf="gapiLoadStatus === 'loaded'" class="container">
+<div *ngIf="gapiStatus === 'loaded'" class="container">
   <div class="container py-2 border-top">
     <div class="d-flex justify-content-between align-items-center text-info" *ngIf="username" style="font-size: 14px;">{{nl.SIGNED_IN_AS}} {{username}}
       <button id="signout-button" class="btn btn-outline-info btn-sm" (click)="onSignOut()">{{nl.SIGN_OUT}}</button>

@@ -27,11 +27,11 @@ import {GapiService} from '../services/gapi.service';
 export class SheetComponent implements OnInit, OnDestroy {
 
   urlInput = new FormControl('');
-  gapiLoadStatus = '';
+  gapiStatus = '';
   sheetLoading = false;
   nl = nl;
   urlsList: string[] = [];
-  gapiLoadStatusSubscription: Subscription;
+  gapiStatusSubscription: Subscription;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -41,8 +41,8 @@ export class SheetComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.gapiLoadStatusSubscription = this.gapiService.gapiLoadStatusStream.subscribe(status => {
-      this.gapiLoadStatus = status;
+    this.gapiStatusSubscription = this.gapiService.gapiStatusStream.subscribe(status => {
+      this.gapiStatus = status;
       this.changeDetector.detectChanges();
     });
   }
@@ -93,7 +93,7 @@ export class SheetComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.gapiLoadStatusSubscription.unsubscribe();
+    this.gapiStatusSubscription.unsubscribe();
   }
 
 }

@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import {GapiService} from './services/gapi.service';
 import {DatabaseService, Selection} from './services/database.service';
+import {GapiService} from './services/gapi.service';
 
 @Component({
   selector: 'tolk-root',
@@ -20,7 +20,6 @@ import {DatabaseService, Selection} from './services/database.service';
         position: absolute;
         bottom: 0;
         width: 100%;
-        z-index: 1;
       }
       @media only screen and (max-height: 310px) {
         #bottom-container {
@@ -33,15 +32,16 @@ export class AppComponent implements OnInit, OnDestroy {
   searchLanguage: string;
   selectionSearchTerm: string = '';
   selectionStreamSubscription: Subscription;
+  gapiStatus: string = '';
+  gapiStatusSubscription: Subscription;
 
-  constructor(private gapiService: GapiService, private databaseService: DatabaseService) {}
+  constructor(private databaseService: DatabaseService, private gapiService: GapiService) {}
 
   ngOnInit() {
-    this.gapiService.loadGapi();
-
-    this.databaseService.selectionStream.subscribe(selection => {
+    this.selectionStreamSubscription = this.databaseService.selectionStream.subscribe(selection => {
       this.selectionSearchTerm = selection.searchTerm;
     });
+    this.gapiStatusSubscription = this.gapiService.gapiStatusStream.subscribe(status => this.gapiStatus = status);
   }
 
   onSearchLanguageEvent(lang) {
@@ -50,5 +50,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.selectionStreamSubscription.unsubscribe();
+    this.gapiStatusSubscription.unsubscribe();
   }
 }

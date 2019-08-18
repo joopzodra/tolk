@@ -2,7 +2,6 @@ import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, OnDestro
 import { Subscription } from 'rxjs';
 
 import {GapiService} from '../services/gapi.service';
-import {DialogService} from '../services/dialog.service';
 import {nl} from '../helpers/nl';
 
 /*
@@ -13,35 +12,44 @@ import {nl} from '../helpers/nl';
 @Component({
   selector: 'tolk-gapi',
   templateUrl: './gapi.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styles: [`
+    span.message {
+      margin-right: 8px;
+    }
+  `]
 })
 export class GapiComponent implements OnInit, OnDestroy {
 
-  gapiLoadStatus = '';
+  gapiStatus = '';
   nl = nl;
-  gapiLoadStatusSubscription: Subscription;
+  gapiStatusSubscription: Subscription;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
     private gapiService: GapiService,
-    private dialogService: DialogService,
     ) { }
 
   ngOnInit() {
-    this.gapiLoadStatusSubscription = this.gapiService.gapiLoadStatusStream.subscribe(status => {
-      this.gapiLoadStatus = status;
+    let timeoutID;
+    this.gapiStatusSubscription = this.gapiService.gapiStatusStream.subscribe(status => {
+      clearTimeout(timeoutID);
+      this.gapiStatus = status;
       this.changeDetector.detectChanges();
-      if (status === 'error') {
-        this.dialogService.emitMessage('warning',nl.NO_GAPI_LOADED, 8000);
+      if (status === 'loading') {
+        timeoutID = setTimeout(() => {
+          this.gapiStatus = 'error';
+          this.changeDetector.detectChanges();
+        }, 5000);
       }
     });
   }
 
-  loadGapi() {
-    this.gapiService.loadGapi();
+  reloadGapi() {
+    this.gapiService.reloadGapi();
   }
 
   ngOnDestroy() {
-    this.gapiLoadStatusSubscription.unsubscribe();
+    this.gapiStatusSubscription.unsubscribe();
   }
 }

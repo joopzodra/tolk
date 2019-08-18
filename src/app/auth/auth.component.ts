@@ -18,10 +18,10 @@ import {nl} from '../helpers/nl';
 })
 export class AuthComponent implements OnInit, OnDestroy {
 
-  gapiLoadStatus = '';
+  gapiStatus = '';
   username: string;
   nl = nl;
-  gapiLoadStatusSubscription: Subscription;
+  gapiStatusSubscription: Subscription;
 
   constructor(
     private gapiService: GapiService,
@@ -30,8 +30,8 @@ export class AuthComponent implements OnInit, OnDestroy {
     ) { }
 
   ngOnInit() {
-    this.gapiLoadStatusSubscription = this.gapiService.gapiLoadStatusStream.subscribe(status => {
-      this.gapiLoadStatus = status;
+    this.gapiStatusSubscription = this.gapiService.gapiStatusStream.subscribe(status => {
+      this.gapiStatus = status;
       this.changeDetector.detectChanges();
     });
 
@@ -50,7 +50,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.gapiLoadStatusSubscription.unsubscribe();
+    this.gapiStatusSubscription.unsubscribe();
   }
 
 }

@@ -12,17 +12,26 @@ export class GapiService {
   private scopes = 'https://www.googleapis.com/auth/spreadsheets';
   private gapiUrl = 'https://apis.google.com/js/api.js';
 
-  private gapiLoadStatus = new BehaviorSubject('');
-  public gapiLoadStatusStream = this.gapiLoadStatus.asObservable();
+  private gapiStatus = new BehaviorSubject('');
+  public gapiStatusStream = this.gapiStatus.asObservable();
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService) {
+    if (navigator.onLine) {
+      this.loadGapi();
+    } else {
+      this.gapiStatus.next('offline');
+    }
+    window.addEventListener('offline', () => this.onOffline());
+    window.addEventListener('online', () => this.onOnline());
+  }
 
   public loadGapi() {
-    this.gapiLoadStatus.next('loading');
+    this.gapiStatus.next('loading');
     const url = this.gapiUrl;
     let head = <HTMLDivElement> document.head;
     let script = document.createElement('script');
     script.src = url;
+    script.id = 'gapi-script'
     script.onload = this.loadGapiClientAndAuth2.bind(this);
     script.onerror = this.gapiLoadError.bind(this);
     head.appendChild(script);
@@ -40,12 +49,41 @@ export class GapiService {
         clientId: this.clientId,
         scope: this.scopes,
     }).then(() => {
-      this.gapiLoadStatus.next('loaded');
+      this.gapiStatus.next('loaded');
       this.authService.onGapiAuth2Init();
-    });
+    }).catch(() => this.gapiLoadError());
   }
 
   private gapiLoadError() {
-    this.gapiLoadStatus.next('error');
+    this.gapiStatus.next('error');
+    this.removeGapiScript();
+  }
+
+  removeGapiScript() {
+    const gapiScript = document.querySelector('#gapi-script');
+    if (gapiScript) {
+      gapiScript.parentElement.removeChild(gapiScript);
+    }
+  }
+
+  reloadGapi() {
+    this.removeGapiScript();
+    this.loadGapi();
+  }
+
+  onOffline() {
+    this.gapiStatus.next('offline');
+  }
+
+  onOnline() {
+    const gapiScript = document.querySelector('#gapi-script');
+    if (!gapiScript || !gapiScript.getAttribute('gapi_processed')) {
+      if (gapiScript) {
+        gapiScript.parentElement.removeChild(gapiScript);
+      }
+      this.loadGapi();
+    } else {
+      this.gapiStatus.next('loaded');
+    }
   }
 }

@@ -31,25 +31,12 @@ export class AuthService {
   }
   
   signIn() {
-    if(!this.gapiExists()) {
-      return;
-    }
-    gapi.auth2.getAuthInstance().signIn();
+    gapi.auth2.getAuthInstance().signIn()
+    .catch(err => this.dialogService.emitMessage('warning', nl.LOGIN_CANCELLED, 5000));
   }
   
   signOut() {
-    if(!this.gapiExists()) {
-      return;
-    }
-    gapi.auth2.getAuthInstance().signOut();
-  }
-
-  gapiExists() {
-    if (gapi && gapi.auth2) {
-      return true;
-    } else {
-      this.dialogService.emitMessage('danger', nl.NO_GAPI_LOADED, 8000);
-      return false;
-    }
+    gapi.auth2.getAuthInstance().signOut()
+    .catch(err => this.dialogService.emitMessage('warning', nl.LOGOUT_CANCELLED, 5000));
   }
 }
