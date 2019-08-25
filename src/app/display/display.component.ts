@@ -28,12 +28,12 @@ export class DisplayComponent implements OnInit, OnDestroy {
       this.columnNames = columnNames;
     } 
 
-    this.databaseService.sheetMetaStream.subscribe(sheetMeta => {
+    this.sheetMetaSubscription = this.databaseService.sheetMetaStream.subscribe(sheetMeta => {
       this.columnNames = sheetMeta.columnNames;
       this.changeDetector.detectChanges();
     });
 
-    this.databaseService.selectionStream.subscribe(selection => {
+    this.selectionSubscription = this.databaseService.selectionStream.subscribe(selection => {
       this.selection = selection;
       this.changeDetector.detectChanges();
     });

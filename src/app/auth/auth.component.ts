@@ -22,6 +22,7 @@ export class AuthComponent implements OnInit, OnDestroy {
   username: string;
   nl = nl;
   gapiStatusSubscription: Subscription;
+  userNameSubscription: Subscription;
 
   constructor(
     private gapiService: GapiService,
@@ -35,7 +36,7 @@ export class AuthComponent implements OnInit, OnDestroy {
       this.changeDetector.detectChanges();
     });
 
-    this.authService.usernameStream.subscribe(username => {
+    this.userNameSubscription = this.authService.usernameStream.subscribe(username => {
       this.username = username;
       this.changeDetector.detectChanges();
     });
@@ -51,6 +52,7 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.gapiStatusSubscription.unsubscribe();
+    this.userNameSubscription.unsubscribe();
   }
 
 }
