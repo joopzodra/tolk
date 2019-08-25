@@ -1,11 +1,12 @@
-import { Component, OnInit, ChangeDetectorRef, ChangeDetectionStrategy, Output, EventEmitter, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef, ChangeDetectionStrategy, Output, EventEmitter, ViewChild, ViewChildren, ElementRef, OnDestroy, QueryList } from '@angular/core';
 import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
-import { NgbDropdown } from '@ng-bootstrap/ng-bootstrap';
-import { Subscription } from 'rxjs';
+import { NgbDropdown, NgbDropdownItem } from '@ng-bootstrap/ng-bootstrap';
+import { combineLatest, Subscription, fromEvent, Observable, from } from 'rxjs';
+import { startWith, map, mergeAll } from 'rxjs/operators';
 
-import {DatabaseService} from '../services/database.service';
-import {nl} from '../helpers/nl';
+import { DatabaseService } from '../services/database.service';
+import { nl } from '../helpers/nl';
 
 @Component({
   selector: 'tolk-search',
@@ -21,26 +22,31 @@ import {nl} from '../helpers/nl';
       will-change: transform;
       position: absolute;      
     }
+    #clear-search-input, #language-selector label {
+      cursor: pointer;
+    }
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SearchComponent implements OnInit, OnDestroy {
+export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
   search = new FormControl('');
-  radioGroupForm: FormGroup;
-  searchLanguage = 'lang1';
+  languageSelector: FormGroup;
+  searchByBegin = new FormControl(true)
   @Output() searchLanguageEvent = new EventEmitter<string>()
-  columnNames = ['',''];
+  columnNames = ['', ''];
   sheetNames = [];
   nl = nl;
   sheetFilterText = '';
+  initialLanguage = 'lang1'
+
   sheetMetaSubscription: Subscription;
-  radioGroupValueSubscription: Subscription;
-  searchValueSubscription: Subscription;
+  searchSubscription: Subscription;
+  @ViewChildren(NgbDropdownItem) sheetFilterDropdownItems: QueryList<NgbDropdownItem>;
 
   // Dropdown properties. NgBootstrap doesn't show the options before page refreshing, so we handle this by ourselves.
-  @ViewChild('dropdown', {static: false})
+  @ViewChild('dropdown', { static: false })
   private dropdown: ElementRef;
-  @ViewChild('dropdownMenu', {static: false})
+  @ViewChild('dropdownMenu', { static: false })
   private dropdownMenu: ElementRef;
   dropdownOpen = false;
 
@@ -53,7 +59,6 @@ export class SearchComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.columnNames = JSON.parse(localStorage.getItem('columnNames')) || this.columnNames;
     this.sheetNames = JSON.parse(localStorage.getItem('sheetNames')) || this.sheetNames;
-    this.searchLanguageEvent.emit(this.searchLanguage);
 
     this.sheetMetaSubscription = this.databaseService.sheetMetaStream.subscribe(sheetMeta => {
       this.columnNames = sheetMeta.columnNames;
@@ -61,43 +66,56 @@ export class SearchComponent implements OnInit, OnDestroy {
       this.changeDetector.detectChanges();
     });
 
-    this.radioGroupForm = this.formBuilder.group({
-      'lang': 'lang1'
-    });
-
-    this.radioGroupValueSubscription = this.radioGroupForm.get('lang').valueChanges.subscribe(lang => {
-      this.searchLanguage = lang;
-      this.searchLanguageEvent.emit(lang);
-    });
-
-    this.searchValueSubscription = this.search.valueChanges
-    .pipe(
-      debounceTime(250),      
-    )
-    .subscribe(searchTerm => {
-      this.databaseService.select(searchTerm, this.searchLanguage, this.sheetFilterText);
+    this.languageSelector = this.formBuilder.group({
+      'lang': this.initialLanguage
     });
 
     document.querySelector('body').addEventListener('click', this.closeDropdown.bind(this));
+  }
+
+  ngAfterViewInit() {
+    // ViewChildren sheetFilterDropdownItems exists after view init, so not in onInit.
+
+    const searchValueStream = (this.search.valueChanges as Observable<string>).pipe(
+      debounceTime(250),
+      startWith('')
+    );
+    const languageSelectorStream = (this.languageSelector.get('lang').valueChanges as Observable<string>).pipe(
+      startWith(this.initialLanguage)
+    );
+    const searchByBeginStream = (this.searchByBegin.valueChanges as Observable<boolean>).pipe(
+      startWith(true)
+    );
+
+    const sheetFilterTextStream = from(this.sheetFilterDropdownItems.toArray()).pipe(
+      map((dropdownButton) => fromEvent(dropdownButton.elementRef.nativeElement, 'click')),
+      mergeAll(),
+      map(event => {
+        const buttonText = (event.target as HTMLButtonElement).textContent;
+        return buttonText === nl.ALL_SHEETS ? '' : buttonText;
+      }),
+      startWith('')
+    );
+
+    this.searchSubscription = combineLatest(searchValueStream, languageSelectorStream, sheetFilterTextStream, searchByBeginStream)
+      .subscribe(([searchTerm, lang, sheetFilterText, byBegin]) => {
+        this.searchLanguageEvent.emit(lang);
+        this.databaseService.select(searchTerm, lang, sheetFilterText, byBegin);
+      });
   }
 
   clearInput() {
     this.search.reset('');
   }
 
-  sheetFilter(sheetName) {
-    this.sheetFilterText = sheetName;
-    this.databaseService.select(this.search.value, this.searchLanguage, this.sheetFilterText);
-  }
-
   // NgBootstrap doesn't show the options before page refreshing, so we handle this by ourselves.
   toggleDropdown() {
-    if (!this.dropdownOpen) {      
+    if (!this.dropdownOpen) {
       this.dropdown.nativeElement.classList.add('dropdown-fix');
       this.dropdownMenu.nativeElement.classList.add('dropdown-menu-fix');
       const topPosition = this.dropdown.nativeElement.clientHeight;
       const leftPosition = this.dropdown.nativeElement.clientWidth - this.dropdownMenu.nativeElement.clientWidth;
-      this.dropdownMenu.nativeElement.style.transform = 
+      this.dropdownMenu.nativeElement.style.transform =
         `translate(${Math.round(leftPosition)}px, ${Math.round(topPosition)}px)`;
       this.dropdownOpen = true;
     } else {
@@ -105,7 +123,7 @@ export class SearchComponent implements OnInit, OnDestroy {
     }
   }
   closeDropdown() {
-      if (this.dropdown) {
+    if (this.dropdown) {
       this.dropdown.nativeElement.classList.remove('dropdown-fix');
       this.dropdownMenu.nativeElement.classList.remove('dropdown-menu-fix');
       this.dropdownOpen = false;
@@ -113,8 +131,7 @@ export class SearchComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.sheetMetaSubscription.unsubscribe();
-    this.radioGroupValueSubscription.unsubscribe();
-    this.searchValueSubscription.unsubscribe();
+    this.searchSubscription.unsubscribe();
     document.querySelector('body').removeEventListener('click', this.closeDropdown.bind(this));
   }
 }

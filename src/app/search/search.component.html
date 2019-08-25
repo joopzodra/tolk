@@ -1,33 +1,33 @@
 <div class="container" *ngIf="columnNames[0] && columnNames[1]">
-
   <div class="row">
-  <form class="col-8 mb-1 pr-2" [formGroup]="radioGroupForm">
-    <div class="btn-group btn-group-toggle w-100" ngbRadioGroup name="searchLanguage" formControlName="lang">
-      <label ngbButtonLabel class="btn-info text-truncate">
-        <input ngbButton type="radio" value="lang1">{{columnNames[0]}}
-      </label>
-      <label ngbButtonLabel class="btn-info text-truncate">
-        <input ngbButton type="radio" value="lang2">{{columnNames[1]}}
-      </label>
-    </div>
-  </form>
-
-  <div class="col-4" *ngIf="sheetNames.length > 1">
-    <div ngbDropdown #dropdown class="d-inline-block w-100" placement="bottom-right">
-      <button class="btn btn-outline-info text-truncate w-100" ngbDropdownToggle (click)="toggleDropdown()">{{sheetFilterText || nl.ALL_SHEETS}}</button>
-      <div ngbDropdownMenu #dropdownMenu class="text-truncate">
-        <button ngbDropdownItem (click)="sheetFilter(''); toggleDropdown()">{{nl.ALL_SHEETS}}</button>
-        <button *ngFor="let sheetName of sheetNames" ngbDropdownItem (click)="sheetFilter(sheetName);">{{sheetName}}</button>
+    <form class="col-8 mb-1 pr-2" [formGroup]="languageSelector">
+      <div id="language-selector" class="btn-group btn-group-toggle w-100" ngbRadioGroup formControlName="lang">
+        <label ngbButtonLabel class="btn-info text-truncate">
+          <input ngbButton type="radio" value="lang1">{{columnNames[0]}}
+        </label>
+        <label ngbButtonLabel class="btn-info text-truncate">
+          <input ngbButton type="radio" value="lang2">{{columnNames[1]}}
+        </label>
+      </div>
+    </form>
+    <div class="col-4" *ngIf="sheetNames.length > 1">
+      <div ngbDropdown #dropdown class="d-inline-block w-100" placement="bottom-right">
+        <button class="btn btn-outline-info text-truncate w-100" ngbDropdownToggle (click)="toggleDropdown()">{{sheetFilterText || nl.ALL_SHEETS}}</button>
+        <div ngbDropdownMenu #dropdownMenu class="text-truncate">
+          <button ngbDropdownItem (click)="toggleDropdown()">{{nl.ALL_SHEETS}}</button>
+          <button *ngFor="let sheetName of sheetNames" ngbDropdownItem>{{sheetName}}</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
-
+  <div class="custom-control custom-checkbox">
+    <input type="checkbox" class="custom-control-input" id="search-by-begin" [formControl]="searchByBegin">
+    <label class="custom-control-label" for="search-by-begin">{{nl.SEARCH_BY_BEGINNING_OF_WORD}}</label>
+  </div>
   <div class="input-group my-2">
     <input type="text" class="form-control" placeholder="{{nl.SEARCH_FOR}}" [formControl]="search">
     <div class="input-group-append">
-      <span class="input-group-text" (click)="clearInput()">&times;</span>
+      <span id="clear-search-input" class="input-group-text" (click)="clearInput()">&times;</span>
     </div>
   </div>
-
 </div>

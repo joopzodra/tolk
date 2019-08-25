@@ -1,6 +1,6 @@
 import Dexie from 'dexie';
 
-interface SheetRow {
+export interface SheetRow {
     id?: number,
     lang1: string,
     lang2: string,

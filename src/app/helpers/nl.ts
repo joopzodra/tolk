@@ -30,4 +30,5 @@ export const nl = {
 
   SEARCH_FOR: 'Zoek ...',
   NO_SEARCHRESULTS: 'Geen resultaat gevonden bij je zoekterm.',
+  SEARCH_BY_BEGINNING_OF_WORD: 'Woord begint met zoekterm',
 }
