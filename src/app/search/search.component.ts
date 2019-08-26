@@ -36,7 +36,7 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
   columnNames = ['', ''];
   sheetNames = [];
   nl = nl;
-  sheetFilterText = '';
+  sheetFilterButtonText = '';
   initialLanguage = 'lang1'
 
   sheetMetaSubscription: Subscription;
@@ -91,8 +91,8 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
       map((dropdownButton) => fromEvent(dropdownButton.elementRef.nativeElement, 'click')),
       mergeAll(),
       map(event => {
-        const buttonText = (event.target as HTMLButtonElement).textContent;
-        return buttonText === nl.ALL_SHEETS ? '' : buttonText;
+        this.sheetFilterButtonText = (event.target as HTMLButtonElement).textContent;
+        return this.sheetFilterButtonText === nl.ALL_SHEETS ? '' : this.sheetFilterButtonText;
       }),
       startWith('')
     );
