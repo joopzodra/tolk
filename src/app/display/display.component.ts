@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ChangeDetectorRef, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 
 import {DatabaseService, Selection} from '../services/database.service';
 import {nl} from '../helpers/nl';
@@ -8,14 +8,28 @@ import {nl} from '../helpers/nl';
   selector: 'tolk-display',
   templateUrl: './display.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  styles: [`
+    #display-spinner {
+      height: 25px;
+      width: 25px;
+      border-width: 4px;
+      margin: 3px auto;
+    }
+    #display-spinner-container {
+      height: 33px;
+      padding: 1px;
+    }
+  `]
 })
 export class DisplayComponent implements OnInit, OnDestroy {
   columnNames = ['',''];
   nl = nl;
   selection: Selection = {searchTerm: '', items:[]};
+  searching: boolean;
   @Input() searchLanguage: string;
   sheetMetaSubscription: Subscription;
   selectionSubscription: Subscription;
+  searchingSubscription: Subscription;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -37,10 +51,16 @@ export class DisplayComponent implements OnInit, OnDestroy {
       this.selection = selection;
       this.changeDetector.detectChanges();
     });
+
+    this.searchingSubscription = this.databaseService.searchingStream.subscribe(searching => {
+      this.searching = searching;
+      this.changeDetector.detectChanges();
+    });
   }
 
   ngOnDestroy() {
     this.sheetMetaSubscription.unsubscribe();
     this.selectionSubscription.unsubscribe();
+    this.searchingSubscription.unsubscribe();
   }
 }
