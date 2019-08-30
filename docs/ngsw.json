@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1566141660196,
+  "timestamp": 1567197409543,
   "index": "/tolk/index.html",
   "assetGroups": [
     {
@@ -9,13 +9,15 @@
       "updateMode": "prefetch",
       "urls": [
         "/tolk/index.html",
-        "/tolk/main-es2015.88eed8bfb4d0d89ffd96.js",
-        "/tolk/main-es5.5add207fdf63e89a099b.js",
+        "/tolk/main-es2015.a6e52bf818d180fa7648.js",
+        "/tolk/main-es5.bbb6d6a54372b275d46e.js",
         "/tolk/polyfills-es2015.7a264d14fd7126ba8db0.js",
         "/tolk/polyfills-es5.11fb2116c81a899eaa89.js",
         "/tolk/runtime-es2015.703a23e48ad83c851e49.js",
         "/tolk/runtime-es5.465c2333d355155ec5f3.js",
-        "/tolk/styles.5097ad12db07b3d349b1.css"
+        "/tolk/styles.5097ad12db07b3d349b1.css",
+        "/tolk/vendor-es2015.4f5db698cde45f86ad54.js",
+        "/tolk/vendor-es5.c29485e3b23de46737db.js"
       ],
       "patterns": []
     },
@@ -32,6 +34,7 @@
         "/tolk/assets/icons/icon-512x512.png",
         "/tolk/assets/icons/icon-72x72.png",
         "/tolk/assets/icons/icon-96x96.png",
+        "/tolk/assets/img/info-icon.svg",
         "/tolk/favicon-16x16.png",
         "/tolk/favicon-32x32.png",
         "/tolk/favicon-96x96.png"
@@ -49,17 +52,20 @@
     "/tolk/assets/icons/icon-512x512.png": "26b6a28d850d8d73d875af2ca660a78e2bd69b28",
     "/tolk/assets/icons/icon-72x72.png": "27e45ac1f716739f0272373573767e0705bcbe6c",
     "/tolk/assets/icons/icon-96x96.png": "d9e6c6fa2851525f69c23b7992c34220c222f555",
+    "/tolk/assets/img/info-icon.svg": "51459d6f26bb2c8eb513d920807e3311d0a42651",
     "/tolk/favicon-16x16.png": "f2a2872d37388382c8c0ecc295b774144f729351",
     "/tolk/favicon-32x32.png": "e152d999e3eefae6df6430e8f42e83bb0dcf2da4",
     "/tolk/favicon-96x96.png": "a8131e825744b487c1cfa437288508d9b8cc0317",
-    "/tolk/index.html": "0c6d6fc37d16b0a7b839ea1f767bf38063420351",
-    "/tolk/main-es2015.88eed8bfb4d0d89ffd96.js": "069bb3043e5d6925a8a8ae96fa91792c059626d3",
-    "/tolk/main-es5.5add207fdf63e89a099b.js": "a184688121cebd72461914d51c839bb2c0d91407",
+    "/tolk/index.html": "aa6e89a37cedb47bda7e9d2df813be55a4801383",
+    "/tolk/main-es2015.a6e52bf818d180fa7648.js": "ea0ef33de7646a7204ad654e5ebd0a7959eed4f4",
+    "/tolk/main-es5.bbb6d6a54372b275d46e.js": "3a7f8ac419049ba8be33dc7dbd4e6435dd80c6e8",
     "/tolk/polyfills-es2015.7a264d14fd7126ba8db0.js": "058203dab4ba87056d6976029ba60fa42e6f75b9",
     "/tolk/polyfills-es5.11fb2116c81a899eaa89.js": "396607375c807097fbb909c1d489ddca619b177c",
     "/tolk/runtime-es2015.703a23e48ad83c851e49.js": "b62956c2192bfe5516d6374e753773901ed50ec5",
     "/tolk/runtime-es5.465c2333d355155ec5f3.js": "b62956c2192bfe5516d6374e753773901ed50ec5",
-    "/tolk/styles.5097ad12db07b3d349b1.css": "d2e34d4544f43f3fa25399dffe0f59782e06ff12"
+    "/tolk/styles.5097ad12db07b3d349b1.css": "d2e34d4544f43f3fa25399dffe0f59782e06ff12",
+    "/tolk/vendor-es2015.4f5db698cde45f86ad54.js": "3463a6110e4afbd0313cc8cf6e3747de1b76d043",
+    "/tolk/vendor-es5.c29485e3b23de46737db.js": "36fc447b25310725bbe944f543b59f5d28ce493b"
   },
   "navigationUrls": [
     {
