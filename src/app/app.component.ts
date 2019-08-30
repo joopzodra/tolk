@@ -1,8 +1,9 @@
-import { Component, Input, OnInit, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy, } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, Input, OnInit, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Subscription, fromEvent, merge, interval } from 'rxjs';
+import { throttle, startWith } from 'rxjs/operators';
 
-import {DatabaseService, Selection} from './services/database.service';
-import {GapiService} from './services/gapi.service';
+import { DatabaseService, Selection } from './services/database.service';
+import { GapiService } from './services/gapi.service';
 
 @Component({
   selector: 'tolk-root',
@@ -12,15 +13,14 @@ import {GapiService} from './services/gapi.service';
       #app-container {
         height: 100vh;
       }
-      #top-container {
-        position: absolute;
-        z-index: 1;
-        width: 100%;
+      #display-container {
+        overflow-y: scroll;
       }
       #bottom-container {
         position: absolute;
         bottom: 0;
         width: 100%;
+        z-index: 2;
       }
       @media only screen and (max-height: 310px) {
         #bottom-container {
@@ -29,19 +29,23 @@ import {GapiService} from './services/gapi.service';
       }
   `]
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   searchLanguage: string;
   showInfoModal: boolean;
   selectionSearchTerm: string = '';
   selectionStreamSubscription: Subscription;
+  viewportChangeStreamSubscription: Subscription;
   gapiStatus: string = '';
   gapiStatusSubscription: Subscription;
+  @ViewChild('topContainer', { static: false })
+  private topContainer: ElementRef<HTMLDivElement>;
+  displayContainerMaxHeight: number;
 
   constructor(
     private databaseService: DatabaseService,
     private gapiService: GapiService,
     private changeDetector: ChangeDetectorRef,
-    ) {}
+  ) { }
 
   ngOnInit() {
     this.selectionStreamSubscription = this.databaseService.selectionStream.subscribe(selection => {
@@ -52,6 +56,28 @@ export class AppComponent implements OnInit, OnDestroy {
       this.gapiStatus = status;
       this.changeDetector.detectChanges();
     });
+  }
+
+  ngAfterViewInit() {
+    const orientationStream = fromEvent(window, 'orientationchange');
+    const resizeStream = fromEvent(window, 'resize').pipe(
+      throttle(val => interval(200)),
+      startWith(null)
+      );
+    this.viewportChangeStreamSubscription = merge(
+      orientationStream,
+      resizeStream
+    )
+      .subscribe(() => {
+        this.displayContainerMaxHeight = this.getDisplayContainerMaxHeight();
+        this.changeDetector.detectChanges();
+      });
+  }
+
+  getDisplayContainerMaxHeight() {
+    const viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    const topContainerHeight = this.topContainer.nativeElement.clientHeight;
+    return viewPortHeight - topContainerHeight - 15;
   }
 
   onSearchLanguageEvent(lang) {
@@ -65,5 +91,6 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.selectionStreamSubscription.unsubscribe();
     this.gapiStatusSubscription.unsubscribe();
+    this.viewportChangeStreamSubscription.unsubscribe();
   }
 }
