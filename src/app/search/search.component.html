@@ -14,8 +14,8 @@
       <div ngbDropdown #dropdown class="d-inline-block w-100" placement="bottom-right">
         <button class="btn btn-outline-info text-truncate w-100" ngbDropdownToggle (click)="toggleDropdown()">{{sheetFilterButtonText || nl.ALL_SHEETS}}</button>
         <div ngbDropdownMenu #dropdownMenu class="text-truncate">
-          <button ngbDropdownItem (click)="toggleDropdown()">{{nl.ALL_SHEETS}}</button>
-          <button *ngFor="let sheetName of sheetNames" ngbDropdownItem>{{sheetName}}</button>
+          <button ngbDropdownItem (click)="toggleDropdown(); onSheetFilterClicked('')">{{nl.ALL_SHEETS}}</button>
+          <button *ngFor="let sheetName of sheetNames" ngbDropdownItem (click)="onSheetFilterClicked(sheetName)">{{sheetName}}</button>
         </div>
       </div>
     </div>

@@ -1,9 +1,9 @@
-import { Component, OnInit, AfterViewInit, ChangeDetectorRef, ChangeDetectionStrategy, Output, EventEmitter, ViewChild, ViewChildren, ElementRef, OnDestroy, QueryList } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef, ChangeDetectionStrategy, Output, EventEmitter, ViewChild, ElementRef, OnDestroy, QueryList } from '@angular/core';
 import { FormControl, FormBuilder, FormGroup } from '@angular/forms';
 import { debounceTime } from 'rxjs/operators';
 import { NgbDropdown, NgbDropdownItem } from '@ng-bootstrap/ng-bootstrap';
-import { combineLatest, Subscription, fromEvent, Observable, from } from 'rxjs';
-import { startWith, map, mergeAll } from 'rxjs/operators';
+import { combineLatest, Subscription, Observable, BehaviorSubject } from 'rxjs';
+import { startWith, map, mergeAll, tap } from 'rxjs/operators';
 
 import { DatabaseService } from '../services/database.service';
 import { nl } from '../helpers/nl';
@@ -28,7 +28,7 @@ import { nl } from '../helpers/nl';
   `],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
+export class SearchComponent implements OnInit, OnDestroy {
   search = new FormControl('');
   languageSelector: FormGroup;
   searchByBegin = new FormControl(true)
@@ -38,10 +38,9 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
   nl = nl;
   sheetFilterButtonText = '';
   initialLanguage = 'lang1'
-
+  sheetFilterTextStream = new BehaviorSubject('');
   sheetMetaSubscription: Subscription;
   searchSubscription: Subscription;
-  @ViewChildren(NgbDropdownItem) sheetFilterDropdownItems: QueryList<NgbDropdownItem>;
 
   // Dropdown properties. NgBootstrap doesn't show the options before page refreshing, so we handle this by ourselves.
   @ViewChild('dropdown', { static: false })
@@ -70,12 +69,6 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
       'lang': this.initialLanguage
     });
 
-    document.querySelector('body').addEventListener('click', this.closeDropdown.bind(this));
-  }
-
-  ngAfterViewInit() {
-    // ViewChildren sheetFilterDropdownItems exists after view init, so not in onInit.
-
     const searchValueStream = (this.search.valueChanges as Observable<string>).pipe(
       debounceTime(250),
       startWith('')
@@ -87,21 +80,13 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
       startWith(true)
     );
 
-    const sheetFilterTextStream = from(this.sheetFilterDropdownItems.toArray()).pipe(
-      map((dropdownButton) => fromEvent(dropdownButton.elementRef.nativeElement, 'click')),
-      mergeAll(),
-      map(event => {
-        this.sheetFilterButtonText = (event.target as HTMLButtonElement).textContent;
-        return this.sheetFilterButtonText === nl.ALL_SHEETS ? '' : this.sheetFilterButtonText;
-      }),
-      startWith('')
-    );
-
-    this.searchSubscription = combineLatest(searchValueStream, languageSelectorStream, sheetFilterTextStream, searchByBeginStream)
+    this.searchSubscription = combineLatest(searchValueStream, languageSelectorStream, this.sheetFilterTextStream, searchByBeginStream)
       .subscribe(([searchTerm, lang, sheetFilterText, byBegin]) => {
         this.searchLanguageEvent.emit(lang);
         this.databaseService.select(searchTerm, lang, sheetFilterText, byBegin);
       });
+
+    document.querySelector('body').addEventListener('click', this.closeDropdown.bind(this));
   }
 
   clearInput() {
@@ -122,6 +107,7 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
       this.closeDropdown();
     }
   }
+
   closeDropdown() {
     if (this.dropdown) {
       this.dropdown.nativeElement.classList.remove('dropdown-fix');
@@ -129,6 +115,12 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
       this.dropdownOpen = false;
     }
   }
+
+  onSheetFilterClicked(filterName: string) {
+    this.sheetFilterButtonText = filterName;
+    this.sheetFilterTextStream.next(filterName);
+  }
+  
   ngOnDestroy() {
     this.sheetMetaSubscription.unsubscribe();
     this.searchSubscription.unsubscribe();
