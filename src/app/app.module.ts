@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import {NgbAlertModule, NgbDropdownModule, NgbButtonsModule} from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlertModule, NgbDropdownModule, NgbButtonsModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { SearchComponent } from './search/search.component';
@@ -13,6 +13,8 @@ import { GapiComponent } from './gapi/gapi.component';
 import { HeaderComponent } from './header/header.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { InfoModalComponent } from './info-modal/info-modal.component';
+import { InfoModalContentComponent } from './info-modal/info-modal-content/info-modal-content.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,12 @@ import { environment } from '../environments/environment';
     SheetComponent,
     DialogComponent,
     GapiComponent,
-    HeaderComponent
+    HeaderComponent,
+    InfoModalComponent,
+    InfoModalContentComponent
+  ],
+  entryComponents: [
+    InfoModalContentComponent
   ],
   imports: [
     BrowserModule,
@@ -31,6 +38,7 @@ import { environment } from '../environments/environment';
     NgbAlertModule,
     NgbDropdownModule,
     NgbButtonsModule,
+    NgbModalModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
   ],
   providers: [],

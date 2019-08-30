@@ -31,6 +31,7 @@ import {GapiService} from './services/gapi.service';
 })
 export class AppComponent implements OnInit, OnDestroy {
   searchLanguage: string;
+  showInfoModal: boolean;
   selectionSearchTerm: string = '';
   selectionStreamSubscription: Subscription;
   gapiStatus: string = '';
@@ -55,6 +56,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   onSearchLanguageEvent(lang) {
     this.searchLanguage = lang;
+  }
+
+  onShowInfoModalEvent(randomNumber) {
+    this.showInfoModal = randomNumber;
   }
 
   ngOnDestroy() {

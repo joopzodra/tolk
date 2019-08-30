@@ -1,7 +1,8 @@
 <div class="bg-light" id="app-container">
   <div id=top-container>
-    <tolk-header></tolk-header>
-    <tolk-search (searchLanguageEvent)=onSearchLanguageEvent($event)></tolk-search>
+    <tolk-header (showInfoModalEvent)="onShowInfoModalEvent($event)"></tolk-header>
+    <tolk-info-modal [showInfoModal]="showInfoModal"></tolk-info-modal>
+    <tolk-search (searchLanguageEvent)="onSearchLanguageEvent($event)"></tolk-search>
     <tolk-display [searchLanguage]="searchLanguage"></tolk-display>
   </div>
   <div id="bottom-container" *ngIf="!selectionSearchTerm || gapiStatus === 'offline'">
