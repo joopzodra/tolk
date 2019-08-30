@@ -7,6 +7,8 @@ export interface DialogMessage {
   time: number
 }
 
+type NgBootstrapAlertType = 'succes' | 'info' | 'warning' | 'danger' | 'primary' | 'secondary' | 'light' | 'dark'
+
 @Injectable({
   providedIn: 'root'
 })
@@ -17,7 +19,8 @@ export class DialogService {
 
   constructor() { }
 
-  emitMessage(type: string, body: string, time: number) {
+  emitMessage(type: NgBootstrapAlertType, body: string, time: number) {
+    // type should
     this.dialog.next({type,body, time});
   }
 }

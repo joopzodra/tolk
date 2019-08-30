@@ -53,7 +53,7 @@ export class SheetService {
     if (gapi && gapi.client && gapi.client.sheets) {
       return true;
     } else {
-      this.dialogService.emitMessage('error', nl.NO_GAPI_LOADED, 8000);
+      this.dialogService.emitMessage('danger', nl.NO_GAPI_LOADED, 8000);
       return false;
     }
   }

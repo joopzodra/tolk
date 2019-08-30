@@ -32,4 +32,7 @@ export const nl = {
   SEARCH_FOR: 'Zoek ...',
   NO_SEARCHRESULTS: 'Geen resultaat gevonden bij je zoekterm.',
   SEARCH_BY_BEGINNING_OF_WORD: 'Woord begint met zoekterm',
+
+  SERVICE_WORKER_UPDATE_AVAILABLE: 'Er is een update van Tolk beschikbaar. Sluit Tolk af en start opnieuw om de update te gebruiken.',
+  SERVICE_WORKER_UPDATE_ACTIVATED: 'Tolk is ge-update.',
 }

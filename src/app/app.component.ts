@@ -4,6 +4,7 @@ import { throttle, startWith } from 'rxjs/operators';
 
 import { DatabaseService, Selection } from './services/database.service';
 import { GapiService } from './services/gapi.service';
+import {ReportSwUpdateService} from './services/report-sw-update.service';
 
 @Component({
   selector: 'tolk-root',
@@ -45,6 +46,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
     private databaseService: DatabaseService,
     private gapiService: GapiService,
     private changeDetector: ChangeDetectorRef,
+    private swUpdate: ReportSwUpdateService,
   ) { }
 
   ngOnInit() {
