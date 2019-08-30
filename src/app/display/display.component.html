@@ -13,6 +13,10 @@
         <td>{{row.lang2}}</td>
         <td *ngIf="searchLanguage==='lang2'">{{row.lang1}}</td>
       </tr>
+      <tr *ngIf="selection.items.length < selection.count">
+        <td *ngIf="selection.byBegin" colspan="2"><small>Er zijn {{selection.count}} termen die beginnen met <strong>{{selection.searchTerm}}</strong>. Verfijn je zoekterm</small></td>
+        <td *ngIf="!selection.byBegin" colspan="2"><small>Er zijn {{selection.count}} termen met <strong>{{selection.searchTerm}}</strong> erin. Verfijn je zoekterm</small></td>
+      </tr>
     </tbody>
     <tr class="d-block  w-100" *ngIf="!selection.items.length && selection.searchTerm !== '' ">
       <td class="d-block">{{nl.NO_SEARCHRESULTS}}</td>

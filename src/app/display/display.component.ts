@@ -24,7 +24,7 @@ import {nl} from '../helpers/nl';
 export class DisplayComponent implements OnInit, OnDestroy {
   columnNames = ['',''];
   nl = nl;
-  selection: Selection = {searchTerm: '', items:[]};
+  selection: Selection = {searchTerm: '', items:[], count: 0};
   searching: boolean;
   @Input() searchLanguage: string;
   sheetMetaSubscription: Subscription;

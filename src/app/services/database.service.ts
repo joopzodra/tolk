@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import Dexie from 'dexie';
-import { Subject } from 'rxjs';
+import { Subject, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { Database, SheetRow } from '../helpers/database';
@@ -15,7 +15,9 @@ interface CustomizedValueRange {
 
 export interface Selection {
   searchTerm: string,
-  items: { lang1: string, lang2: string }[]
+  items: { lang1: string, lang2: string }[],
+  byBegin?: boolean,
+  count?: number
 }
 
 interface SheetMeta {
@@ -33,6 +35,8 @@ export class DatabaseService {
   public sheetMetaStream = this.sheetMeta.asObservable();
   private selection = new Subject<Selection>();
   public selectionStream = this.selection.asObservable();
+  private searching = new BehaviorSubject(false);
+  public searchingStream = this.searching.asObservable();
 
   constructor(private dialogService: DialogService) {
     this.db = new Database('TolkDatabase');
@@ -71,14 +75,16 @@ export class DatabaseService {
   }
 
   select(term: string, column: string, sheet: string, byBegin: boolean) {
+    this.searching.next(true);
     this.db.glossery.count()
       .then(count => count !== 0 || this.dialogService.emitMessage('warning', nl.DATABASE_EMPTY, 8000));
     if (term === '') {
       this.selection.next({ searchTerm: term, items: [] });
+      this.searching.next(false);
       return;
     }
 
-    const dbTable = this.db.glossery //.where(column);
+    const dbTable = this.db.glossery;
     const maybeByBegin = (dbTable: Dexie.Table<SheetRow, number>) => {
       if (byBegin) {
         return dbTable.where(column).startsWithIgnoreCase(term);
@@ -92,12 +98,22 @@ export class DatabaseService {
       return sheet ? whereClause.and(row => row.sheetName === sheet) : whereClause;
     }
 
-    maybeSheet(maybeByBegin(dbTable))
+    const selectionCollection = maybeSheet(maybeByBegin(dbTable));
+    const count = selectionCollection.count();
+    const results: Promise<Selection> = selectionCollection
       .limit(7)
       .toArray()
       .then(result => {
         const picked = result.map(row => ({ lang1: row.lang1, lang2: row.lang2 }));
-        this.selection.next({ searchTerm: term, items: picked });
+        return { searchTerm: term, items: picked, byBegin: byBegin }
       });
+
+    Promise.all([count, results])
+      .then(([count, results]) => {
+        results.count = count;
+        this.selection.next(results);
+        this.searching.next(false);
+      })
+      .catch(() => this.searching.next(false));
   }
 }
