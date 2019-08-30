@@ -5,8 +5,17 @@
   </button>
 </div>
 <div class="modal-body">
-  <p>Hier kan info over Tolk komen. Zoals dat je een Excel workbook eerst moet uploaden naar Google Sheets.</p>
+  <small>
+    <p>Hier kan info over Tolk komen. Zoals:</p>
+    <p>In Tolk kun je een spreadsheet uit Google sheets laden. Wil je een Excel spreadsheet gebruiken? Upload  eerst je moet uploaden naar Google Sheets. Ga naar <a href="https://docs.google.com/spreadsheets">Google Sheets</a>, maak een nieuwe lege spreadsheet, en klik daarin op File > Import > Upload.</p>
+    <p>Tolk verwacht dat in je spreadsheet de vertalingen beginnen in de tweede rij. De eerste rij wordt dus niet gebruikt, behalve die van de eerste sheet! De eerste rij van eerste sheet benut voor taalkeuze knoppen.</p>
+    <p>Publieke sheets vs privé sheets. Inloggen bij Google, etc...</p>
+    <p>Tolk geeft maximaal 7 zoekresultaten.</p>
+    <strong><p>Problemen?</p></strong>
+    <p>Lukt het niet om in te loggen bij Google?. Meestal ligt dat aan privacy beschermende browser extensies, zoals Privacy Badger of Ghostery. Kijk of het wel lukt als je die uitschakelt.</p>
+    <p>Is offline werken met de app is niet mogelijk? Als je in de browser hebt ingesteld dat cookies en websitegegevens verwijderd worden na het afsluiten van de browser, dan is offline werken niet mogelijk. Je zult dan je spreadsheet steeds opnieuw moeten laden in Tolk. Ook na het wissen van browsegegevens moet je je spreadsheet opnieuw laden.</p> 
+  </small>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Close</button>
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close()">Sluit</button>
 </div>
