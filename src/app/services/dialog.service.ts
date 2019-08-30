@@ -7,7 +7,7 @@ export interface DialogMessage {
   time: number
 }
 
-type NgBootstrapAlertType = 'succes' | 'info' | 'warning' | 'danger' | 'primary' | 'secondary' | 'light' | 'dark'
+type NgBootstrapAlertType = 'success' | 'info' | 'warning' | 'danger' | 'primary' | 'secondary' | 'light' | 'dark'
 
 @Injectable({
   providedIn: 'root'

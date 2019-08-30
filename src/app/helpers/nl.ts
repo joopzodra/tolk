@@ -12,8 +12,8 @@ export const nl = {
   NO_SPREADSHEET_ID: 'De url bevat geen geldige spreadsheet id.',
   SPREADSHEET_REQUIRES_AUTORIZATION: 'Deze spreadsheet is niet publiek. Je moet inloggen bij Google met het account voor deze sheet.',
   SHEETS_LOADING_ERROR: 'Het lukt niet om Google Sheets binnen te halen.',
-  SHEETS_LOADING_SUCCES: 'Je Google sheet is opgeslagen in Tolk',
-  UPLOAD_SUCCES_AT: 'Geüpload op',
+  SHEETS_LOADING_SUCCESS: 'Je Google sheet is opgeslagen in Tolk',
+  UPLOAD_SUCCESS_AT: 'Geüpload op',
   UPLOAD_ERROR_AT: 'Mislukte upload poging op',
   
   NO_SPREADSHEET_TITLE: 'Geen sheet',

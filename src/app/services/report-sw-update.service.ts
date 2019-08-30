@@ -14,11 +14,11 @@ export class ReportSwUpdateService {
     private dialogService: DialogService
   ) {
     updates.available.subscribe(event => {
-      this.dialogService.emitMessage('succes', nl.SERVICE_WORKER_UPDATE_AVAILABLE, 10000);
+      this.dialogService.emitMessage('success', nl.SERVICE_WORKER_UPDATE_AVAILABLE, 10000);
     });
 
     updates.activated.subscribe(event => {
-      this.dialogService.emitMessage('succes', nl.SERVICE_WORKER_UPDATE_ACTIVATED, 4000);
+      this.dialogService.emitMessage('success', nl.SERVICE_WORKER_UPDATE_ACTIVATED, 4000);
     });
   }
 }
