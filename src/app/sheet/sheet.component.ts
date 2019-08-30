@@ -22,6 +22,10 @@ import {GapiService} from '../services/gapi.service';
         word-break: break-word;
         font-size: 0.8rem;
       }
+      #enable-sheet-loading-button-container {
+        display: flex;
+        justify-content: flex-end;
+      }
     `]
   })
 export class SheetComponent implements OnInit, OnDestroy {
@@ -32,6 +36,7 @@ export class SheetComponent implements OnInit, OnDestroy {
   nl = nl;
   urlsList: string[] = [];
   gapiStatusSubscription: Subscription;
+  sheetLoadingEnabled = false;
 
   constructor(
     private changeDetector: ChangeDetectorRef,
@@ -59,6 +64,7 @@ export class SheetComponent implements OnInit, OnDestroy {
       this.changeDetector.detectChanges();
       this.dialogService.emitMessage('success', nl.SHEETS_LOADING_SUCCES, 4000);
       this.sheetService.setUrlUploadResult(this.urlInput.value, 'succes', );
+      this.urlInput.setValue('');
     })
     .catch(response => {
       this.sheetLoading = false;
@@ -92,6 +98,10 @@ export class SheetComponent implements OnInit, OnDestroy {
   selectUrl(url) {
     this.urlsList = [];
     this.urlInput.setValue(url);
+  }
+
+  toggleSheetLoadingEnabled() {
+    this.sheetLoadingEnabled = !this.sheetLoadingEnabled;
   }
 
   ngOnDestroy() {

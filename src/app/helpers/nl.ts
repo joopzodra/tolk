@@ -6,6 +6,7 @@ export const nl = {
   LOGIN_CANCELLED: 'Inloggen is afgebroken',
   LOGOUT_CANCELLED: 'Uitloggen is afgebroken',
 
+  ENABLE_SHEET_LOADING: 'Sheet laden',
   LOAD_SHEET: 'Laden',
   INCORRECT_SPREADSHEET_URL: 'Geen spreadsheet gevonden bij deze url.',
   NO_SPREADSHEET_ID: 'De url bevat geen geldige spreadsheet id.',
