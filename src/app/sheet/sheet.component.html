@@ -9,14 +9,14 @@
       <div class="input-group mb-3">
         <input type="text" class="form-control" placeholder="{{nl.GOOGLE_SHEETS_URL}}" [formControl]="urlInput" (focus)="onInputFocus()" (focusout)="onInputFocusOut()">
         <div class="input-group-append">
-          <button class="btn btn-info" type="button" (click)="loadSheet(); toggleSheetLoadingEnabled()">{{nl.LOAD_SHEET}}</button>
-          <button class="btn btn-outline-info" type="button" (click)="toggleSheetLoadingEnabled()">×</button>
+          <button class="btn btn-info" type="button" (click)="loadSheet()">{{nl.LOAD_SHEET}}</button>
+          <button class="btn btn-outline-info" type="button" (click)="disableSheetLoading()">×</button>
         </div>
       </div>
     </div>
     <div *ngIf="sheetLoading" class="spinner"></div>
   </div>
   <div id="enable-sheet-loading-button-container" *ngIf="!sheetLoadingEnabled" class="container mb-3">
-    <button class="btn btn-outline-info btn-sm" type="button" (click)="toggleSheetLoadingEnabled()">{{nl.ENABLE_SHEET_LOADING}}</button>
+    <button class="btn btn-outline-info btn-sm" type="button" (click)="enableSheetLoading()">{{nl.ENABLE_SHEET_LOADING}}</button>
   </div>
 </div>

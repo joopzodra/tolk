@@ -61,6 +61,7 @@ export class SheetComponent implements OnInit, OnDestroy {
     this.sheetService.loadSheet(this.urlInput.value)
     .then(() => { 
       this.sheetLoading = false;
+      this.sheetLoadingEnabled = false;
       this.changeDetector.detectChanges();
       this.dialogService.emitMessage('success', nl.SHEETS_LOADING_SUCCES, 4000);
       this.sheetService.setUrlUploadResult(this.urlInput.value, 'succes', );
@@ -100,8 +101,13 @@ export class SheetComponent implements OnInit, OnDestroy {
     this.urlInput.setValue(url);
   }
 
-  toggleSheetLoadingEnabled() {
-    this.sheetLoadingEnabled = !this.sheetLoadingEnabled;
+  enableSheetLoading() {
+    this.sheetLoadingEnabled = true;
+  }
+
+  disableSheetLoading() {
+    this.sheetLoadingEnabled = false;
+    this.urlInput.setValue('');
   }
 
   ngOnDestroy() {
