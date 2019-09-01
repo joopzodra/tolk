@@ -7,10 +7,12 @@
   <div id="display-container" [ngStyle]="{'max-height': displayContainerMaxHeight + 'px'}">
     <tolk-display [searchLanguage]="searchLanguage"></tolk-display>
   </div>
-  <div id="bottom-container" *ngIf="!selectionSearchTerm || gapiStatus === 'offline'">
+  <div id="bottom-container">
     <tolk-dialog></tolk-dialog>
-    <tolk-sheet></tolk-sheet>
-    <tolk-gapi></tolk-gapi>
-    <tolk-auth></tolk-auth>
+    <div *ngIf="!selectionSearchTerm || gapiStatus === 'offline'">
+      <tolk-sheet></tolk-sheet>
+      <tolk-gapi></tolk-gapi>
+      <tolk-auth></tolk-auth>
+    </div>
   </div>
 </div>
