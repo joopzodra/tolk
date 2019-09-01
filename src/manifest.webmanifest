@@ -1,7 +1,7 @@
 {
   "name": "tolk",
   "short_name": "tolk",
-  "theme_color": "#A25861",
+  "theme_color": "#000",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "/tolk/",
