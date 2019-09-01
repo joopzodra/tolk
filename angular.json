@@ -45,7 +45,8 @@
               "src/favicon-32x32.png",
               "src/favicon-96x96.png",
               "src/assets",
-              "src/manifest.webmanifest"
+              "src/manifest.webmanifest",
+              "src/privacy/index.html",
             ],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
