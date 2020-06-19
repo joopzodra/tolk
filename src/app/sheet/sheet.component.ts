@@ -70,6 +70,10 @@ export class SheetComponent implements OnInit, OnDestroy {
     .catch(response => {
       this.sheetLoading = false;
       this.changeDetector.detectChanges();
+      if (response.name === 'InvalidStateError' || response.name === 'DatabaseClosedError') {
+        this.dialogService.emitMessage('danger', nl.DATABASE_INVALID_STATE_ERROR, 10000);
+        return;
+      }
       switch (response.status) {
         case 404:
           this.dialogService.emitMessage('danger', nl.INCORRECT_SPREADSHEET_URL, 8000);

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
-import {AuthService} from './auth.service'
+import { AuthService } from './auth.service'
 
 @Injectable({
   providedIn: 'root'
@@ -21,14 +21,19 @@ export class GapiService {
     } else {
       this.gapiStatus.next('offline');
     }
-    window.addEventListener('offline', () => this.onOffline());
-    window.addEventListener('online', () => this.onOnline());
+    window.addEventListener('offline', this.onOffline.bind(this));
+    window.addEventListener('online', this.onOnline.bind(this));
   }
 
-  public loadGapi() {
+  public reloadGapi() {
+    this.removeGapiScript();
+    this.loadGapi();
+  }
+
+  private loadGapi() {
     this.gapiStatus.next('loading');
     const url = this.gapiUrl;
-    let head = <HTMLDivElement> document.head;
+    let head = < HTMLDivElement > document.head;
     let script = document.createElement('script');
     script.src = url;
     script.id = 'gapi-script'
@@ -38,16 +43,16 @@ export class GapiService {
   }
 
   private loadGapiClientAndAuth2() {
-    gapi.load('client:auth2', () => this.initGapiClient());
+    gapi.load('client:auth2', this.initGapiClient.bind(this));
   }
 
   private initGapiClient() {
     gapi.client.init({
-        // Api key is used when a public Google sheets is used and OAuth2 authorisation is not required. 
-        apiKey: 'AIzaSyDY3qsYVEpvv1M7ha55H6KDVnxaMzBn4jo',
-        discoveryDocs: this.discoveryDocs,
-        clientId: this.clientId,
-        scope: this.scopes,
+      // Api key is used when a public Google sheets is used and OAuth2 authorisation is not required. 
+      apiKey: 'AIzaSyDY3qsYVEpvv1M7ha55H6KDVnxaMzBn4jo',
+      discoveryDocs: this.discoveryDocs,
+      clientId: this.clientId,
+      scope: this.scopes,
     }).then(() => {
       this.gapiStatus.next('loaded');
       this.authService.onGapiAuth2Init();
@@ -59,28 +64,23 @@ export class GapiService {
     this.removeGapiScript();
   }
 
-  removeGapiScript() {
+  private removeGapiScript() {
     const gapiScript = document.querySelector('#gapi-script');
     if (gapiScript) {
       gapiScript.parentElement.removeChild(gapiScript);
     }
   }
 
-  reloadGapi() {
-    this.removeGapiScript();
-    this.loadGapi();
-  }
-
-  onOffline() {
+  private onOffline() {
     this.gapiStatus.next('offline');
   }
 
-  onOnline() {
+  private onOnline() {
     const gapiScript = document.querySelector('#gapi-script');
-    if (!gapiScript || !gapiScript.getAttribute('gapi_processed')) {
-      if (gapiScript) {
-        gapiScript.parentElement.removeChild(gapiScript);
-      }
+    if (!gapiScript) {
+      this.loadGapi();
+    } else if (!gapiScript.getAttribute('gapi_processed')) {
+      gapiScript.parentElement.removeChild(gapiScript);
       this.loadGapi();
     } else {
       this.gapiStatus.next('loaded');

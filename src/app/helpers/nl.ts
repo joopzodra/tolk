@@ -28,6 +28,7 @@ export const nl = {
 
   DATABASE_EMPTY: 'De app heeft geen data. Je moet een spreadsheet laden.',
   DATABASE_CLOSED_ERROR: 'De app heeft geen data. Je moet een spreadsheet laden.',
+  DATABASE_INVALID_STATE_ERROR: 'Je hebt browser gegevens gewist. Ververs eerst de pagina of sluit de app en open hem opnieuw. Daarna kun je weer sheets uploaden.',
 
   SEARCH_FOR: 'Zoek ...',
   NO_SEARCHRESULTS: 'Geen resultaat gevonden bij je zoekterm.',
