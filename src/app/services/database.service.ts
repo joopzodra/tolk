@@ -93,13 +93,14 @@ export class DatabaseService {
     const dbTable = this.db.glossery;
     const maybeByBegin = (dbTable: Dexie.Table < SheetRow, number > ) => {
       if (byBegin) {
-        return dbTable.filter(words => words[column].normalize('NFD').replace(/[\u0300-\u036f]/g, '').startsWith(term))
+        const termToLowerCase = term.toLowerCase();
+        return dbTable.filter(words => words[column].normalize('NFD').replace(/[\u0300-\u036f]/g, '').startsWith(termToLowerCase))
       } else {
         // escape the special regex characters in the term, see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
-        const escapedTerm = term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+        const escapedTerm = term.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
         const regex = new RegExp(escapedTerm, 'i');
         // normalize('NDF') etc, see https://stackoverflow.com/questions/990904/remove-accents-diacritics-in-a-string-in-javascript
-        return dbTable.filter(words => regex.test(words[column].normalize('NFD').replace(/[\u0300-\u036f]/g, '')));
+        return dbTable.filter(words => regex.test(words[column].normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()));
       }
     }
     const maybeSheet = (whereClause: Dexie.Collection < SheetRow, number > ) => {
