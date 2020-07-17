@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1592633520314,
+  "timestamp": 1595001499629,
   "index": "/tolk/index.html",
   "assetGroups": [
     {
@@ -9,8 +9,8 @@
       "updateMode": "prefetch",
       "urls": [
         "/tolk/index.html",
-        "/tolk/main-es2015.dccceadb36fe7ed25dc1.js",
-        "/tolk/main-es5.6b2e9254aed5be4dacf2.js",
+        "/tolk/main-es2015.95525fe1ca0d8ae7df4d.js",
+        "/tolk/main-es5.ddec4ea2d8afbd410059.js",
         "/tolk/polyfills-es2015.7a264d14fd7126ba8db0.js",
         "/tolk/polyfills-es5.11fb2116c81a899eaa89.js",
         "/tolk/runtime-es2015.703a23e48ad83c851e49.js",
@@ -56,9 +56,9 @@
     "/tolk/favicon-16x16.png": "f2a2872d37388382c8c0ecc295b774144f729351",
     "/tolk/favicon-32x32.png": "e152d999e3eefae6df6430e8f42e83bb0dcf2da4",
     "/tolk/favicon-96x96.png": "a8131e825744b487c1cfa437288508d9b8cc0317",
-    "/tolk/index.html": "a787e23a3a49509729a0f940584c96746c721139",
-    "/tolk/main-es2015.dccceadb36fe7ed25dc1.js": "b9830fcffd707083e176e58bb3083daeb10664f0",
-    "/tolk/main-es5.6b2e9254aed5be4dacf2.js": "ce83c402a7dc17579ab9646072101b5bf7017004",
+    "/tolk/index.html": "4b6a1e79e879e1eb2e3f90c7505b7a3422e0978b",
+    "/tolk/main-es2015.95525fe1ca0d8ae7df4d.js": "ef4786d03c75a24a7f73c113993efab62a77d1b1",
+    "/tolk/main-es5.ddec4ea2d8afbd410059.js": "5d0282e48e5a45c0e70e159d8cfb81b3a6299835",
     "/tolk/polyfills-es2015.7a264d14fd7126ba8db0.js": "058203dab4ba87056d6976029ba60fa42e6f75b9",
     "/tolk/polyfills-es5.11fb2116c81a899eaa89.js": "396607375c807097fbb909c1d489ddca619b177c",
     "/tolk/runtime-es2015.703a23e48ad83c851e49.js": "b62956c2192bfe5516d6374e753773901ed50ec5",
