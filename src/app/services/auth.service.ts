@@ -16,7 +16,7 @@ export class AuthService {
 
   public onGapiAuth2Init() {
     // Listen for sign-in state changes.
-    gapi.auth2.getAuthInstance().isSignedIn.listen(this.updateSigninStatus);
+    gapi.auth2.getAuthInstance().isSignedIn.listen(this.updateSigninStatus.bind(this));
     // Handle the initial sign-in state.
     const initialSignInState = gapi.auth2.getAuthInstance().isSignedIn.get();
     this.updateSigninStatus(initialSignInState);
