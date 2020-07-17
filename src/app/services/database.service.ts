@@ -94,17 +94,17 @@ export class DatabaseService {
     const maybeByBegin = (dbTable: Dexie.Table < SheetRow, number > ) => {
       if (byBegin) {
         const termToLowerCase = term.toLowerCase();
-        return dbTable.filter(words => words[column].normalize('NFD').replace(/[\u0300-\u036f]/g, '').startsWith(termToLowerCase))
+        return dbTable.filter(record => record[column] && record[column].normalize('NFD').replace(/[\u0300-\u036f]/g, '').startsWith(termToLowerCase))
       } else {
         // escape the special regex characters in the term, see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions
         const escapedTerm = term.toLowerCase().replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
         const regex = new RegExp(escapedTerm, 'i');
         // normalize('NDF') etc, see https://stackoverflow.com/questions/990904/remove-accents-diacritics-in-a-string-in-javascript
-        return dbTable.filter(words => regex.test(words[column].normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()));
+        return dbTable.filter(record => record[column] && regex.test(record[column].normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()));
       }
     }
     const maybeSheet = (whereClause: Dexie.Collection < SheetRow, number > ) => {
-      return sheet ? whereClause.and(row => row.sheetName === sheet) : whereClause;
+      return sheet ? whereClause.and(record => record.sheetName === sheet) : whereClause;
     }
 
     const selectionCollection = maybeSheet(maybeByBegin(dbTable));
@@ -112,7 +112,7 @@ export class DatabaseService {
     const results: Promise < Selection > = selectionCollection
       .toArray()
       .then(result => {
-        const picked = result.map(row => ({ lang1: row.lang1, lang2: row.lang2 }));
+        const picked = result.map(record => ({ lang1: record.lang1, lang2: record.lang2 }));
         return { searchTerm: term, items: picked, byBegin: byBegin }
       });
 
