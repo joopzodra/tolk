@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgbAlertModule, NgbDropdownModule, NgbButtonsModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlertModule, NgbDropdownModule, NgbButtonsModule, NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { SearchComponent } from './search/search.component';
@@ -40,6 +40,7 @@ import { InfoModalContentComponent } from './info-modal/info-modal-content/info-
     NgbButtonsModule,
     NgbModalModule,
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    NgbModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
