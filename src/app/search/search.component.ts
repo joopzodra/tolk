@@ -43,9 +43,9 @@ export class SearchComponent implements OnInit, OnDestroy {
   searchSubscription: Subscription;
 
   // Dropdown properties. NgBootstrap doesn't show the options before page refreshing, so we handle this by ourselves.
-  @ViewChild('dropdown', { static: false })
+  @ViewChild('dropdown')
   private dropdown: ElementRef;
-  @ViewChild('dropdownMenu', { static: false })
+  @ViewChild('dropdownMenu')
   private dropdownMenu: ElementRef;
   dropdownOpen = false;
 

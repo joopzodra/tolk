@@ -38,7 +38,7 @@ export class AppComponent implements OnInit, OnDestroy, AfterViewInit {
   viewportChangeStreamSubscription: Subscription;
   gapiStatus: string = '';
   gapiStatusSubscription: Subscription;
-  @ViewChild('topContainer', { static: false })
+  @ViewChild('topContainer')
   private topContainer: ElementRef<HTMLDivElement>;
   displayContainerMaxHeight: number;
 
